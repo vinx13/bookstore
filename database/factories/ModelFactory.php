@@ -11,9 +11,24 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Book::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->sentence(),
+        'description' => $faker->paragraph(),
+        'isbn' => $faker->isbn13(),
+        'cover_image' => $faker->imageUrl(),
+        'price'=>$faker->numberBetween(1000, 10000),
+        'quantity'=>$faker->numberBetween(0,10000)
+    ];
+});
+
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+    static $password;
+
     return [
         'name' => $faker->name,
-        'email' => $faker->email,
+        'email' => $faker->unique()->safeEmail,
+        'password' => $password ?: $password = bcrypt('secret'),
     ];
 });
