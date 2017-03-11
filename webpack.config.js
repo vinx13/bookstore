@@ -39,6 +39,7 @@ module.exports = {
   },
   devServer: {
     contentBase: "./public",
+    publicPath: "/static/",
     noInfo: false, //  --no-info option
     hot: true,
     inline: true,
