@@ -6742,6 +6742,10 @@ vue-router@2.1.1:
   version "2.1.1"
   resolved "http://registry.npm.taobao.org/vue-router/download/vue-router-2.1.1.tgz#10c31bbdcb6da92bd3e0223fa12345e73018625a"
 
+vue-router@^2.3.0:
+  version "2.3.0"
+  resolved "http://registry.npm.taobao.org/vue-router/download/vue-router-2.3.0.tgz#a25c8359e8ca989d22ce79f64322eb0ad0c8670f"
+
 vue-style-loader@^2.0.0:
   version "2.0.3"
   resolved "http://registry.npm.taobao.org/vue-style-loader/download/vue-style-loader-2.0.3.tgz#b464ffb6279702d4137a80ac81b5c12ac440f0a0"
