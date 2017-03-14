@@ -4,12 +4,13 @@ var webpack = require('webpack')
 module.exports = {
   entry: {
     admin: './resources/admin/index.js',
+    store: './resources/store/index.js'
   },
   externals: [{"jquery": "window.jQuery"}],
   output: {
     path: path.resolve(__dirname, './public/static/scripts'),
     publicPath: '/scripts/',
-    filename: 'admin-bundle.js'
+    filename: '[name]-bundle.js'
   },
   module: {
     rules: [

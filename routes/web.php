@@ -18,3 +18,7 @@ $app->get('/', function () use ($app) {
 $app->get('/admin', function() {
     return redirect('/static/admin/index.html');
 });
+
+$app->get('/store', function() {
+    return redirect('/static/store/index.html');
+});

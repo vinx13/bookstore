@@ -28,7 +28,6 @@ const knownOptions = {
 
 const options = minimist(process.argv.slice(2), knownOptions)
 
-// Admin CSS task
 gulp.task('admin-lib', ['clean'], function () {
   // Prefix, compress and concat the CSS assets
   // Afterwards add the MD5 hash to the filename
@@ -54,7 +53,7 @@ gulp.task('admin-lib', ['clean'], function () {
 
 });
 
-gulp.task('admin-webpack', ['clean'], function () {
+gulp.task('webpack', ['clean'], function () {
 
   webpack(webpackConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack", err);
@@ -63,6 +62,33 @@ gulp.task('admin-webpack', ['clean'], function () {
     }));
   });
 });
+
+
+gulp.task('store-lib', ['clean'], function () {
+  // Prefix, compress and concat the CSS assets
+  // Afterwards add the MD5 hash to the filename
+  const styles = gulp.src(assets.admin.styles)
+    .pipe(gulpif(options.env === 'production', concat('store.min.css')))
+    .pipe(gulpif(options.env === 'production', cssnano()))
+    .pipe(rev())
+    .pipe(rename({dirname: ''}))
+    .pipe(gulp.dest('public/static/styles'));
+
+  // Concat and uglify the JavaScript assets
+  // Afterwards add the MD5 hash to the filename
+  const scripts = gulp.src(assets.admin.scripts)
+    .pipe(gulpif(options.env === 'production', concat('store.min.js')))
+    .pipe(gulpif(options.env === 'production', uglify({preserveComments: 'license'})))
+    .pipe(rev())
+    .pipe(rename({dirname: ''}))
+    .pipe(gulp.dest('public/static/scripts'));
+
+  gulp.src("./resources/store/index.html")
+    .pipe(inject(es.merge(styles,scripts), {ignorePath:'public'}))
+    .pipe(gulp.dest('public/static/store'));
+
+});
+
 
 // Font task
 gulp.task('fonts', ['clean'], function () {
@@ -81,7 +107,8 @@ gulp.task('clean', function () {
       'public/static/scripts/**',
       'public/static/fonts/**',
       'public/static/*.html',
-      'public/static/admin/*.html'
+      'public/static/admin/*.html',
+      'public/static/store/*.html'
     ]);
   } catch (e) {
   }
@@ -114,7 +141,7 @@ gulp.task("dev", ['build-dev'], function() {
 
 // Build tasks
 gulp.task('build-dev', ['admin-lib', 'fonts']);
-gulp.task('build-release', ['admin-lib', 'admin-webpack', 'fonts']);
+gulp.task('build-release', ['admin-lib', 'webpack', 'fonts']);
 
 
 // Watch tasks
