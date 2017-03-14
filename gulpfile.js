@@ -49,8 +49,8 @@ gulp.task('admin-lib', ['clean'], function () {
     .pipe(gulp.dest('public/static/scripts'));
 
   gulp.src("./resources/admin/index.html")
-    .pipe(inject(es.merge(styles,scripts), {ignorePath:'../../public/static',relative:true}))
-    .pipe(gulp.dest('public/static'));
+    .pipe(inject(es.merge(styles,scripts), {ignorePath:'public'}))
+    .pipe(gulp.dest('public/static/admin'));
 
 });
 
@@ -80,7 +80,8 @@ gulp.task('clean', function () {
       'public/static/styles/**',
       'public/static/scripts/**',
       'public/static/fonts/**',
-      'public/static/*.html'
+      'public/static/*.html',
+      'public/static/admin/*.html'
     ]);
   } catch (e) {
   }

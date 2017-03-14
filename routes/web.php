@@ -16,5 +16,5 @@ $app->get('/', function () use ($app) {
 });
 
 $app->get('/admin', function() {
-    return view('admin.index');
+    return redirect('/static/admin/index.html');
 });

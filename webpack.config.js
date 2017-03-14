@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './public/static/scripts'),
     publicPath: '/scripts/',
-    filename: 'bundle.js'
+    filename: 'admin-bundle.js'
   },
   module: {
     rules: [
