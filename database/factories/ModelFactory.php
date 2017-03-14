@@ -18,8 +18,8 @@ $factory->define(App\Models\Book::class, function (Faker\Generator $faker) {
         'description' => $faker->paragraph(),
         'isbn' => $faker->isbn13(),
         'cover_image' => $faker->imageUrl(),
-        'price'=>$faker->numberBetween(1000, 10000),
-        'quantity'=>$faker->numberBetween(0,10000)
+        'price' => $faker->numberBetween(1000, 10000),
+        'quantity' => $faker->numberBetween(0, 10000)
     ];
 });
 
@@ -29,6 +29,26 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => $password ?: $password = password_hash('secret', PASSWORD_BCRYPT),
+    ];
+});
+
+$factory->define(App\Models\Order::class, function (Faker\Generator $faker) {
+    $users = App\Models\User::all();
+    $books = App\Models\Book::all();
+
+    $user_ids = $users->map(function($user) {
+        return $user->id;
+    })->toArray();
+
+    $book_ids = $books->map(function ($book) {
+        return $book->id;
+    })->toArray();
+
+    return [
+        'book_id' => $faker->randomElement($book_ids),
+        'user_id' => $faker->randomElement($user_ids),
+        'price' => $faker->numberBetween(1000, 10000),
+        'quantity' => $faker->numberBetween(0, 10000)
     ];
 });
