@@ -10,5 +10,8 @@ $api->version('v1', function ($api) {
         $api->resource('books', 'BookController', ['except' => [
             'edit', 'create'
         ]]);
+        $api->resource('orders', 'OrderController', ['except' => [
+            'edit', 'create'
+        ]]);
     });
 });
