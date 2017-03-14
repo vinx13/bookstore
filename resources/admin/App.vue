@@ -1,24 +1,17 @@
-<template>
-    <div id="app" class="wrapper" style="height: auto;">
-        <nav-bar></nav-bar>
-        <side-bar></side-bar>
-        <content-container></content-container>
-    </div>
-</template>
 
-<script>
-  import "jquery/dist/jquery.js"
-  import "bootstrap/dist/js/bootstrap.js"
-  import "admin-lte/dist/js/app.js"
+//  import "jquery/dist/jquery.js"
+ // import "bootstrap/dist/js/bootstrap.js"
+//  import Dt from "datatables.net"
+  var $ = require('jquery')
+  require("imports-loader?jQuery=$!admin-lte/dist/js/app.js")
   import Vue from 'vue'
   import VueRouter from 'vue-router'
-  import NavBar from './NavBar.vue'
-  import SideBar from './SideBar.vue'
+  import NavBar from './layout/NavBar.vue'
+  import SideBar from './layout/SideBar.vue'
   import Books from './Books.vue'
   import Users from './Users.vue'
   import Orders from './Users.vue'
-  import ContentContainer from './Content.vue'
-
+  import ContentContainer from './layout/Content.vue'
 
   Vue.use(VueRouter)
 
@@ -29,8 +22,7 @@
   ];
   const router = new VueRouter({routes});
 
-  export default {
-    name: 'app',
+  Vue.component('App',{
     router,
     components: {
       NavBar,
@@ -39,14 +31,11 @@
       Books,
       Users,
       Orders
-    }
-  }
+    },
+    template:'    <div id="app" class="wrapper" style="height: auto;">
+    <nav-bar></nav-bar>
+    <side-bar></side-bar>
+    <content-container></content-container>
+    </div>'
+  })
 
-</script>
-
-<style lang="sass">
-    @import "~bootstrap/dist/css/bootstrap.css"
-    @import "~admin-lte/dist/css/AdminLTE.css"
-    @import "~admin-lte/dist/css/skins/skin-blue.css"
-    @import "~font-awesome/css/font-awesome.css"
-</style>

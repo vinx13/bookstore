@@ -1,0 +1,21 @@
+{
+  "admin": {
+    "styles":[
+      "node_modules/bootstrap/dist/css/bootstrap.css",
+      "node_modules/admin-lte/dist/css/AdminLTE.css",
+      "node_modules/admin-lte/dist/css/skins/skin-blue.css",
+      "node_modules/font-awesome/css/font-awesome.css"
+    ],
+    "scripts":[
+      "node_modules/jquery/dist/jquery.js",
+      "node_modules/bootstrap/dist/js/bootstrap.js",
+      "node_modules/admin-lte/dist/js/app.js",
+      "node_modules/datatables.net/js/jquery.dataTables.js",
+      "node_modules/datatables.net-bs/js/dataTables.bootstrap.js"
+    ]
+  },
+  "fonts":[
+    "node_modules/bootstrap/dist/fonts/*.*",
+    "node_modules/font-awesome/fonts/*.*"
+  ]
+}

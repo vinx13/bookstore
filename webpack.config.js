@@ -2,11 +2,14 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  entry: './resources/admin/index.js',
+  entry: {
+    admin: './resources/admin/index.js',
+  },
+  externals: [{"jquery": "window.jQuery"}],
   output: {
-    path: path.resolve(__dirname, './public/static'),
-    publicPath: '/static',
-    filename: 'build.js'
+    path: path.resolve(__dirname, './public/static/scripts'),
+    publicPath: '/scripts/',
+    filename: 'bundle.js'
   },
   module: {
     rules: [
@@ -15,8 +18,10 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           loaders: {
-            scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax' // <style lang="sass">
+            css : "css-loader",
+            less : "css-loader!less-loader",
+            scss: 'css-loader!sass-loader', // <style lang="scss">
+            sass: 'css-loader!sass-loader?indentedSyntax' // <style lang="sass">
           }
         }
       },
@@ -56,17 +61,20 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
     }
-  },
+  }
+  ,
   devServer: {
-    contentBase: "./public",
-    publicPath: "/static/",
+    contentBase: "./public/static",
+    publicPath: "/scripts/",
     noInfo: false, //  --no-info option
     hot: true,
     inline: true,
-  },
+  }
+  ,
   performance: {
     hints: false
-  },
+  }
+  ,
   devtool: '#eval-source-map'
 }
 
