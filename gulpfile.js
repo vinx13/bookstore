@@ -99,7 +99,7 @@ gulp.task("dev", ['build-dev'], function() {
 
     proxy: {
       '/api': {
-        target: 'https://localhost:8000',
+        target: 'http://localhost:8000',
         secure: false
       }
     }

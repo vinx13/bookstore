@@ -1,16 +1,19 @@
+<template>
+    <div id="app" class="wrapper" style="height: auto;">
+        <nav-bar></nav-bar>
+        <side-bar></side-bar>
+        <content-container></content-container>
+    </div>
+</template>
 
-//  import "jquery/dist/jquery.js"
- // import "bootstrap/dist/js/bootstrap.js"
-//  import Dt from "datatables.net"
-  var $ = require('jquery')
-  require("imports-loader?jQuery=$!admin-lte/dist/js/app.js")
+<script>
   import Vue from 'vue'
   import VueRouter from 'vue-router'
   import NavBar from './layout/NavBar.vue'
   import SideBar from './layout/SideBar.vue'
   import Books from './Books.vue'
   import Users from './Users.vue'
-  import Orders from './Users.vue'
+  import Orders from './Orders.vue'
   import ContentContainer from './layout/Content.vue'
 
   Vue.use(VueRouter)
@@ -22,7 +25,8 @@
   ];
   const router = new VueRouter({routes});
 
-  Vue.component('App',{
+  export default {
+    name: 'app',
     router,
     components: {
       NavBar,
@@ -31,11 +35,10 @@
       Books,
       Users,
       Orders
-    },
-    template:'    <div id="app" class="wrapper" style="height: auto;">
-    <nav-bar></nav-bar>
-    <side-bar></side-bar>
-    <content-container></content-container>
-    </div>'
-  })
+    }
+  }
 
+</script>
+
+<style lang="sass">
+</style>
