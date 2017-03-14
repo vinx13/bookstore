@@ -13,11 +13,24 @@ class BookController extends Controller
      *
      * @return array
      */
-    public function index()
+    public function getIndex(Request $request)
     {
-        $books = Book::all();
+        $books = Book::paginate($request->query('per_page'));
+        return $books;
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  integer $id
+     * @return array
+     */
+    public function getDetail($id)
+    {
+        $book = Book::find($id);
         return [
-            'data' => $books
+            'data' => $book
         ];
     }
 
@@ -28,7 +41,7 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return array
      */
-    public function store(Request $request)
+    public function postIndex(Request $request)
     {
         $book = new Book;
         $book->name = $request->name;
@@ -40,20 +53,6 @@ class BookController extends Controller
         $book->save();
         return [
             'data'=>$book
-        ];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  integer $id
-     * @return array
-     */
-    public function show($id)
-    {
-        $book = Book::find($id);
-        return [
-            'data' => $book
         ];
     }
 

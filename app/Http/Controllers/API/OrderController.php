@@ -13,11 +13,24 @@ class OrderController extends Controller
      *
      * @return array
      */
-    public function index()
+    public function getIndex(Request $request)
     {
-        $orders = Order::with('book', 'user')->get();
+        $orders = Order::with('book', 'user')->paginate($request->query('per_page'));
+        return $orders;
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  integer $id
+     * @return array
+     */
+    public function getDetail($id)
+    {
+        $order = Order::find(id);
         return [
-            'data' => $orders
+            'data' => $order
         ];
     }
 
@@ -28,25 +41,17 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return array
      */
-    public function store(Request $request)
+    public function postIndex(Request $request)
     {
-        // TODO
-        return [
-            'data'=>$book
-        ];
-    }
+        $order = new Order;
+        $order->user_id = $request->user_id;
+        $order->book_id = $request->book_id;
+        $order->price = $request->price;
+        $order->quantity = $request->quantity;
+        $order->save();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  integer $id
-     * @return array
-     */
-    public function show($id)
-    {
-        $order = Order::find(id);
         return [
-            'data' => $order
+            'data'=> $order
         ];
     }
 
@@ -58,9 +63,15 @@ class OrderController extends Controller
      * @param  \App\Models\Order $order
      * @return array
      */
-    public function update(Request $request, Order $order)
+    public function putIndex($id, Request $request)
     {
+        $order = Order::find($id);
+        $order->user_id = $request->user_id;
+        $order->book_id = $request->book_id;
+        $order->price = $request->price;
+        $order->quantity = $request->quantity;
         $order->update();
+
         return [
             'data' => $order
         ];
@@ -72,8 +83,8 @@ class OrderController extends Controller
      * @param  \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function deleteIndex($id)
     {
-        $order->delete();
+        Order::find($id)->delete();
     }
 }

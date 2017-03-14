@@ -14,3 +14,7 @@
 $app->get('/', function () use ($app) {
     return $app->version();
 });
+
+$app->get('/admin', function() {
+    return view('admin.index');
+});

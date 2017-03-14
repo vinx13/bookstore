@@ -11,13 +11,29 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
-    public function index()
+    public function getIndex(Request $request)
     {
-        $users = User::all();
+        $users = User::paginate($request->query('per_page'));
+
+        // TODO: sort_by
+        return $users;
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  $id
+     * @return array
+     */
+    public function getDetail($id)
+    {
+        $user = User::find($id);
         return [
-            'data' => $users
+            'data' => $user
         ];
     }
 
@@ -28,26 +44,15 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function postIndex(Request $request)
     {
         $user = new User;
         $user->name = $request->name;
         $user->password = $request->password;
         $user->email = $request->email;
         $user->save();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  $id
-     * @return array
-     */
-    public function show($id)
-    {
-        $user = User::find($id);
         return [
-            'data' => $user->Json()
+            'data' => $user
         ];
     }
 
@@ -59,10 +64,16 @@ class UserController extends Controller
      * @param  \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function putIndex($id, Request $request)
     {
-
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->password = $request->password;
+        $user->email = $request->email;
         $user->update();
+        return [
+            'data' => $user
+        ];
     }
 
     /**
@@ -71,7 +82,7 @@ class UserController extends Controller
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function deleteIndex($id)
     {
         User::find($id)->delete();
     }
