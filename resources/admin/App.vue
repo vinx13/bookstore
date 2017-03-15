@@ -9,6 +9,7 @@
 <script>
   import Vue from 'vue'
   import VueRouter from 'vue-router'
+  import VueResource from 'vue-resource'
   import NavBar from './layout/NavBar.vue'
   import SideBar from './layout/SideBar.vue'
   import Books from './Books.vue'
@@ -17,6 +18,11 @@
   import ContentContainer from './layout/Content.vue'
 
   Vue.use(VueRouter)
+  Vue.use(VueResource);
+  Vue.filter('priceFilter',function(price) {
+      const s = price.toString();
+      return '$ ' + s.slice(0, -2) + '.' + s.slice(-2);
+    });
 
   const routes = [
     {path: '/books', component: Books},
