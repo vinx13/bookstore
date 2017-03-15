@@ -120,7 +120,7 @@ gulp.task("dev", ['build-dev'], function() {
 
   new WebpackDevServer(compiler, {
     contentBase: "./public",
-    publicPath: "/scripts/",
+    publicPath: "/static/scripts/",
     noInfo: false, //  --no-info option
     hot: true,
     inline: true,
