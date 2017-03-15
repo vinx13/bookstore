@@ -119,16 +119,17 @@ gulp.task("dev", ['build-dev'], function() {
   const compiler = webpack(webpackConfig);
 
   new WebpackDevServer(compiler, {
-    contentBase: "./public/static",
+    contentBase: "./public",
     publicPath: "/scripts/",
     noInfo: false, //  --no-info option
     hot: true,
     inline: true,
 
     proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        secure: false
+      '/api/**': {
+        target: 'http://[::1]:8000',
+        secure: false,
+        changeOrigin: true
       }
     }
   }).listen(8080, "localhost", function(err) {
