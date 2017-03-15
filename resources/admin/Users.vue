@@ -24,6 +24,8 @@
                             <td>{{item.id}}</td>
                             <td>{{item.name}}</td>
                             <td>{{item.email}}</td>
+                            <td><a v-on:click="showEditModal(item)" class="btn btn-sm btn-info">Edit</a>
+                                <a v-on:click="deleteItem(item)" class="btn btn-sm btn-danger">Delete</a> </td>
                         </tr>
                         </tbody>
                     </table>
@@ -70,7 +72,7 @@
             'email': '',
             'password': ''
           },
-          callback:this.saveUser
+          callback: null
         }
       }
     },
@@ -90,21 +92,7 @@
           this.pagination.page = response.data.current_page;
           this.pagination.last_page = response.data.last_page;
         });
-      }
-      ,
-      saveUser(user)
-      {
-        this.$http.post('/api/users', user);
-      }
-      ,
-      updateUser(user)
-      {
-        const resource = this.$resource('/api/users{/id}', user);
-        resource.update().then(response => {
-          console.log(response);
-        });
-      }
-      ,
+      },
       showNewModal()
       {
         this.modalOption = {
@@ -114,18 +102,34 @@
             'email': '',
             'password': ''
           },
-          callback: saveUser
+          callback: this.newItemCallback
         };
         this.$refs.modal.show();
-
+      },
+      newItemCallback(item) {
+        this.$http.post('/api/users', item).then(response => {
+          this.$refs.modal.hide();
+        });
+      },
+      showEditModal(item){
+        this.modalOption = {
+          action: 'Edit',
+          item,
+          callback: this.editItemCallback
+        };
+        this.$refs.modal.show();
+      },
+      editItemCallback(item) {
+        this.$http.put('/api/users{/id}', item, {params: {id: item.id}}).then(response => {
+          this.$refs.modal.hide();
+        });
+      },
+      deleteItem(item) {
+        this.$http.delete('/api/users{/id}',{params: {id: item.id}}).then(response=>{
+          this.items.splice(this.items.indexOf(item), 1);
+        });
       }
-      ,
-      showEditModal()
-      {
-
-      }
-    }
-    ,
+    },
     components: {
       DataTable,
       UserEdit,

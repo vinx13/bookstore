@@ -46,8 +46,8 @@ class BookController extends Controller
         $book = new Book;
         $book->name = $request->name;
         $book->description = $request->description;
-        $book->ISBN = $request->ISBN;
-        $book->cover_image = $request->cover_image;
+        $book->isbn = $request->isbn;
+        $book->cover_image = $request->input('cover_image', 'default.jpg');
         $book->price = $request->price;
         $book->quantity = $request->quantity;
         $book->save();

@@ -1,47 +1,54 @@
 <template>
-    <section>
-        <section class="content-header">
-            <h1>Books</h1>
-        </section>
-        <section class="content">
-            <div class="box">
-                <div class="box-header">
-                </div>
-                <!-- /.box-header -->
-
-                <div class="box-body">
-                    <table class="table table-filter table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <td>ID</td>
-                            <td>Book Name</td>
-                            <td>ISBN</td>
-                            <td>Price</td>
-                            <td>Quantity</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="table-fade" v-for="item in items">
-                            <td>{{item.id}}</td>
-                            <td>{{item.name}}</td>
-                            <td>{{item.isbn}}</td>
-                            <td>{{item.price|priceFilter}}</td>
-                            <td>{{item.quantity}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="box-footer">
-                    <pagination :pagination="pagination" :callback="loadData"
-                                :options="paginationOptions"></pagination>
-                </div>
-            </div>
-        </section>
+  <section>
+    <section class="content-header">
+      <h1>Books</h1>
     </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-header col-md-12">
+          <a v-on:click="showNewModal" class="btn btn-sm btn-success">New</a>
+        </div>
+        <!-- /.box-header -->
+
+        <div class="box-body">
+          <table class="table table-filter table-bordered table-hover">
+            <thead>
+            <tr>
+              <td>ID</td>
+              <td>Book Name</td>
+              <td>Description</td>
+              <td>ISBN</td>
+              <td>Price</td>
+              <td>Quantity</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-fade" v-for="item in items">
+              <td>{{item.id}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.isbn}}</td>
+              <td>{{item.price | priceFilter}}</td>
+              <td>{{item.quantity}}</td>
+              <td><a v-on:click="showEditModal(item)" class="btn btn-sm btn-info">Edit</a>
+                <a v-on:click="deleteItem(item)" class="btn btn-sm btn-danger">Delete</a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="box-footer">
+          <pagination :pagination="pagination" :callback="loadData"
+                      :options="paginationOptions"></pagination>
+        </div>
+      </div>
+    </section>
+    <book-edit :option="modalOption" ref="modal"></book-edit>
+  </section>
 </template>
 
 <script>
   import Pagination from './Pagination.vue'
+  import BookEdit from './BookEdit.vue'
 
   export default{
     name: 'Books',
@@ -62,11 +69,23 @@
           previousText: 'Prev',
           nextText: 'Next',
           alwaysShowPrevNext: true
+        },
+        modalOption: {
+          action: 'New',
+          item: {
+            'name': '',
+            'description': '',
+            'isbn': '',
+            'price': '',
+            'quantity': ''
+          },
+          callback: null
         }
-      }
+      };
     },
     methods: {
-      loadData () {
+      loadData()
+      {
         const params = {
           per_page: this.pagination.per_page,
           page: this.pagination.current_page,
@@ -81,9 +100,58 @@
           this.pagination.last_page = response.data.last_page;
         });
       }
-    },
+      ,
+      showNewModal()
+      {
+        this.modalOption = {
+          action: 'New',
+          item: {
+            'name': '',
+            'description': '',
+            'isbn': '',
+            'price': '',
+            'quantity': ''
+          },
+          callback: this.newItemCallback
+        };
+        this.$refs.modal.show();
+      }
+      ,
+      newItemCallback(item)
+      {
+        this.$http.post('/api/books', item).then(response => {
+          this.$refs.modal.hide();
+        });
+      }
+      ,
+      showEditModal(item)
+      {
+        this.modalOption = {
+          action: 'Edit',
+          item,
+          callback: this.editItemCallback
+        };
+        this.$refs.modal.show();
+      }
+      ,
+      editItemCallback(item)
+      {
+        this.$http.put('/api/books{/id}', item, {params: {id: item.id}}).then(response => {
+          this.$refs.modal.hide();
+        });
+      }
+      ,
+      deleteItem(item)
+      {
+        this.$http.delete('/api/books{/id}', {params: {id: item.id}}).then(response => {
+          this.items.splice(this.items.indexOf(item), 1);
+        });
+      }
+    }
+    ,
     components: {
-      Pagination
+      Pagination,
+      BookEdit
     }
   }
 </script>
