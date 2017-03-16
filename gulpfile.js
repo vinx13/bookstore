@@ -14,7 +14,7 @@ const es = require('event-stream')
 const babelify = require('babelify')
 const webpack = require('webpack')
 const gutil = require('gulp-util')
-const webpackConfig = require('./webpack.config.js')
+
 const WebpackDevServer = require("webpack-dev-server");
 
 // Load assets.json
@@ -27,6 +27,8 @@ const knownOptions = {
 }
 
 const options = minimist(process.argv.slice(2), knownOptions)
+const webpackConfig = require(options.env === 'production' ? './webpack.config.production.js' : './webpack.config.js')
+
 
 gulp.task('admin-lib', ['clean'], function () {
   // Prefix, compress and concat the CSS assets
@@ -48,15 +50,15 @@ gulp.task('admin-lib', ['clean'], function () {
     .pipe(gulp.dest('public/static/scripts'));
 
   gulp.src("./resources/admin/index.html")
-    .pipe(inject(es.merge(styles,scripts), {ignorePath:'public'}))
+    .pipe(inject(es.merge(styles, scripts), {ignorePath: 'public'}))
     .pipe(gulp.dest('public/static/admin'));
 
 });
 
 gulp.task('webpack', ['clean'], function () {
 
-  webpack(webpackConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack", err);
+  webpack(webpackConfig, function (err, stats) {
+    if (err) throw new gutil.PluginError("webpack", err);
     gutil.log("[webpack]", stats.toString({
       // output options
     }));
@@ -84,7 +86,7 @@ gulp.task('store-lib', ['clean'], function () {
     .pipe(gulp.dest('public/static/scripts'));
 
   gulp.src("./resources/store/index.html")
-    .pipe(inject(es.merge(styles,scripts), {ignorePath:'public'}))
+    .pipe(inject(es.merge(styles, scripts), {ignorePath: 'public'}))
     .pipe(gulp.dest('public/static/store'));
 
 });
@@ -114,7 +116,7 @@ gulp.task('clean', function () {
   }
 });
 
-gulp.task("dev", ['build-dev'], function() {
+gulp.task("dev", ['build-without-webpack'], function () {
   // Start a webpack-dev-server
   const compiler = webpack(webpackConfig);
 
@@ -132,8 +134,8 @@ gulp.task("dev", ['build-dev'], function() {
         changeOrigin: true
       }
     }
-  }).listen(8080, "localhost", function(err) {
-    if(err) throw new gutil.PluginError("webpack-dev-server", err);
+  }).listen(8080, "localhost", function (err) {
+    if (err) throw new gutil.PluginError("webpack-dev-server", err);
     // Server listening
     gutil.log("[webpack-dev-server]", "http://localhost:8080/");
 
@@ -141,8 +143,8 @@ gulp.task("dev", ['build-dev'], function() {
 });
 
 // Build tasks
-gulp.task('build-dev', ['admin-lib', 'fonts']);
-gulp.task('build-release', ['admin-lib', 'webpack', 'fonts']);
+gulp.task('build-without-webpack', ['admin-lib', 'fonts']);
+gulp.task('build', ['admin-lib', 'webpack', 'fonts']);
 
 
 // Watch tasks
@@ -151,9 +153,9 @@ gulp.task('watch', function () {
     assets.admin.styles,
     assets.admin.scripts,
     assert.fonts
-  ], ['build-dev']);
+  ], ['build-without-webpack']);
 });
 
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['build-release']);
+gulp.task('default', ['build']);
