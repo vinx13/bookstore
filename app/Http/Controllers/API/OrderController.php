@@ -59,8 +59,8 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  $id
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Order $order
      * @return array
      */
     public function putIndex($id, Request $request)
@@ -80,7 +80,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Order $order
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
     public function deleteIndex($id)

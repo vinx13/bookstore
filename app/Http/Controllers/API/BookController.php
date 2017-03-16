@@ -52,7 +52,7 @@ class BookController extends Controller
         $book->quantity = $request->quantity;
         $book->save();
         return [
-            'data'=>$book
+            'data' => $book
         ];
     }
 
@@ -60,12 +60,19 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  $id
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Book $book
      * @return array
      */
-    public function update(Request $request, Book $book)
+    public function putIndex($id, Request $request)
     {
+        $book = Book::find($id);
+        $book->name = $request->name;
+        $book->description = $request->description;
+        $book->isbn = $request->isbn;
+        $book->cover_image = $request->input('cover_image', 'default.jpg');
+        $book->price = $request->price;
+        $book->quantity = $request->quantity;
         $book->update();
         return [
             'data' => $book
@@ -75,11 +82,11 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Book $book
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function delete($id)
     {
-        $book->delete();
+        Book::find($id)->delete();
     }
 }
