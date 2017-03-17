@@ -9,9 +9,9 @@ module.exports = {
   },
   externals: [{"jquery": "window.jQuery"}],
   output: {
-    path: path.resolve(__dirname, './public/static/scripts'),
-    publicPath: '/scripts/',
-    filename: '[name]-bundle.js'
+    path: path.resolve(__dirname, './public/static'),
+    publicPath: '/static/',
+    filename: 'scripts/[name]-bundle.js'
   },
   module: {
     rules: [
@@ -66,25 +66,11 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery"
     }),
-    new ExtractTextPlugin({filename: "../styles/[name]-bundle.css", allChunks: true}),
+    new ExtractTextPlugin({filename: "styles/[name]-bundle.css", allChunks: true}),
   ],
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
     }
   }
-  ,
-  devServer: {
-    contentBase: "./public/static",
-    publicPath: "/scripts/",
-    noInfo: false, //  --no-info option
-    hot: true,
-    inline: true,
-  }
-  ,
-  performance: {
-    hints: false
-  }
-  ,
-  devtool: '#eval-source-map'
 }

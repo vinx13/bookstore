@@ -122,7 +122,7 @@ gulp.task("dev", ['build-without-webpack'], function () {
 
   new WebpackDevServer(compiler, {
     contentBase: "./public",
-    publicPath: "/static/scripts/",
+    publicPath: "/static/",
     noInfo: false, //  --no-info option
     hot: true,
     inline: true,
