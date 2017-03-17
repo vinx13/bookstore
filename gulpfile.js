@@ -69,7 +69,7 @@ gulp.task('webpack', ['clean'], function () {
 gulp.task('store-lib', ['clean'], function () {
   // Prefix, compress and concat the CSS assets
   // Afterwards add the MD5 hash to the filename
-  const styles = gulp.src(assets.admin.styles)
+  const styles = gulp.src(assets.store.styles)
     .pipe(gulpif(options.env === 'production', concat('store.min.css')))
     .pipe(gulpif(options.env === 'production', cssnano()))
     .pipe(rev())
@@ -78,7 +78,7 @@ gulp.task('store-lib', ['clean'], function () {
 
   // Concat and uglify the JavaScript assets
   // Afterwards add the MD5 hash to the filename
-  const scripts = gulp.src(assets.admin.scripts)
+  const scripts = gulp.src(assets.store.scripts)
     .pipe(gulpif(options.env === 'production', concat('store.min.js')))
     .pipe(gulpif(options.env === 'production', uglify({preserveComments: 'license'})))
     .pipe(rev())
@@ -143,8 +143,8 @@ gulp.task("dev", ['build-without-webpack'], function () {
 });
 
 // Build tasks
-gulp.task('build-without-webpack', ['admin-lib', 'fonts']);
-gulp.task('build', ['admin-lib', 'webpack', 'fonts']);
+gulp.task('build-without-webpack', ['admin-lib', 'store-lib', 'fonts']);
+gulp.task('build', ['build-without-webpack', 'webpack']);
 
 
 // Watch tasks

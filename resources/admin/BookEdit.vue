@@ -18,8 +18,9 @@
             <div class="form-group">
               <label for="inputDescription" class="col-sm-2 control-label">Description</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputDescription" v-model="option.item.description"
+                <textarea type="text" class="form-control" id="inputDescription" v-model="option.item.description"
                        placeholder="Description">
+                </textarea>
               </div>
             </div>
             <div class="form-group">

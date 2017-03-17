@@ -85,7 +85,7 @@ class BookController extends Controller
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function deleteIndex($id)
     {
         Book::find($id)->delete();
     }

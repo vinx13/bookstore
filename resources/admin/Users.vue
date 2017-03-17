@@ -40,7 +40,6 @@
     </section>
 </template>
 <script>
-  import DataTable from './DataTable.vue'
   import UserEdit from './UserEdit.vue'
   import Pagination from './Pagination.vue'
 
@@ -131,7 +130,6 @@
       }
     },
     components: {
-      DataTable,
       UserEdit,
       Pagination
     }
