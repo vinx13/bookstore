@@ -1,3 +1,4 @@
-/**
- * Created by Vincent on 2017/3/15.
- */
+import Vue from 'vue'
+import App from './App.vue'
+
+new Vue(App).$mount('#app')

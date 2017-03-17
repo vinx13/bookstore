@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -19,10 +20,18 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           loaders: {
-            css : "css-loader",
-            less : "css-loader!less-loader",
-            scss: 'css-loader!sass-loader', // <style lang="scss">
-            sass: 'css-loader!sass-loader?indentedSyntax' // <style lang="sass">
+            css: ExtractTextPlugin.extract({
+              use: "css-loader",
+              fallback: 'vue-style-loader'
+            }),
+            scss: ExtractTextPlugin.extract({
+              use: "css-loader!sass-loader",
+              fallback: 'vue-style-loader'
+            }),
+            sass: ExtractTextPlugin.extract({
+              use: "css-loader!sass-loader?indentedSyntax",
+              fallback: 'vue-style-loader'
+            })
           }
         }
       },
@@ -56,7 +65,8 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
-    })
+    }),
+    new ExtractTextPlugin({filename: "../styles/[name]-bundle.css", allChunks: true}),
   ],
   resolve: {
     alias: {
