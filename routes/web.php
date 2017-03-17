@@ -11,14 +11,16 @@
 |
 */
 
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 $app->get('/', function () use ($app) {
     return $app->version();
 });
 
 $app->get('/admin', function() {
-    return redirect('/static/admin/index.html');
+    return new BinaryFileResponse(base_path().'/public/static/admin/index.html');
 });
 
 $app->get('/store', function() {
-    return redirect('/static/store/index.html');
+    return new BinaryFileResponse(base_path().'/public/static/store/index.html');
 });
