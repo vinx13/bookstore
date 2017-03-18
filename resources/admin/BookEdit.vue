@@ -19,7 +19,7 @@
               <label for="inputDescription" class="col-sm-2 control-label">Description</label>
               <div class="col-sm-10">
                 <textarea type="text" class="form-control" id="inputDescription" v-model="option.item.description"
-                       placeholder="Description">
+                          placeholder="Description">
                 </textarea>
               </div>
             </div>
@@ -61,7 +61,7 @@
         price: 0.0
       };
     },
-    watch:{
+    watch: {
       'option' (newVal, oldVal) {
         this.price = newVal.item.price / 100.0;
       }

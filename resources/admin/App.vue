@@ -16,13 +16,11 @@
   import Users from './Users.vue'
   import Orders from './Orders.vue'
   import ContentContainer from './layout/Content.vue'
+  import PriceFilter from '../price-filter.js'
 
   Vue.use(VueRouter)
   Vue.use(VueResource);
-  Vue.filter('priceFilter',function(price) {
-      const s = price.toString();
-      return '$ ' + s.slice(0, -2) + '.' + s.slice(-2);
-    });
+  Vue.filter('priceFilter', PriceFilter);
 
   const routes = [
     {path: '/books', component: Books},
