@@ -40,7 +40,7 @@
         items: [],
         pagination: {
           total: 0,
-          per_page: 16,    // required
+          per_page: 12,    // required
           current_page: 1, // required
           last_page: 1,    // required
         },

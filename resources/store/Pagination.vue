@@ -11,9 +11,9 @@
              class="mdl-button mdl-js-button mdl-js-ripple-effect pagination-link">«
           </a>
         </li>
-        <li v-for="num in array" :class="{ active: num === pagination.current_page }">
+        <li v-for="num in array">
           <a href="#" @click.prevent="changePage(num)"
-             class="mdl-button mdl-js-button mdl-js-ripple-effect pagination-link">{{ num }}</a>
+             :class="{ active: num === pagination.current_page }" class="mdl-button mdl-js-button mdl-js-ripple-effect pagination-link">{{ num }}</a>
         </li>
         <li v-if="showNext()"
             :class="{ disabled: pagination.current_page === pagination.last_page || pagination.last_page === 0 }">
@@ -108,13 +108,11 @@
     list-style-type: none;
     display: inline-block;
   }
-
   .pagination {
     margin: 0;
     padding: 0;
     text-align: center
   }
-
   .pagination-link {
     width: 40px;
     height: 40px;
@@ -123,5 +121,8 @@
     border-radius: 50%;
     box-sizing: border-box;
     opacity: .4
+  }
+  .active{
+    opacity: 1
   }
 </style>
