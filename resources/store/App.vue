@@ -13,6 +13,8 @@
           <card :item="item"></card>
         </div>
       </div>
+      <pagination :pagination="pagination" :callback="loadData"
+                  :options="paginationOptions"></pagination>
       <site-footer></site-footer>
     </main>
   </div>
@@ -26,6 +28,7 @@
   import VueResource from 'vue-resource'
   import PriceFilter from '../price-filter.js'
   import SiteFooter from "./Footer.vue"
+  import Pagination from './Pagination.vue'
 
   Vue.use(VueResource);
   Vue.filter('priceFilter', PriceFilter);
@@ -37,34 +40,46 @@
         items: [],
         pagination: {
           total: 0,
-          per_page: 15,    // required
+          per_page: 16,    // required
           current_page: 1, // required
           last_page: 1,    // required
         },
+        paginationOptions: {
+          offset: 4,
+          previousText: 'Prev',
+          nextText: 'Next',
+          alwaysShowPrevNext: true
+        }
       }
     },
     components: {
       SiteFooter, NavBar,
       SideBar,
-      Card
+      Card,
+      Pagination
     },
     mounted() {
-      const params = {
-        per_page: this.pagination.per_page,
-        page: this.pagination.current_page,
-      }
-
-      const resource = this.$resource('/api/books{/id}', params);
-      resource.get().then(response => {
-        this.items = response.data.data;
-        this.pagination.total = response.data.total;
-        this.pagination.per_page = response.data.per_page;
-        this.pagination.page = response.data.current_page;
-        this.pagination.last_page = response.data.last_page;
-      });
+      this.loadData();
     },
     updated(){
       componentHandler.upgradeAllRegistered();
+    },
+    methods: {
+      loadData(){
+        const params = {
+          per_page: this.pagination.per_page,
+          page: this.pagination.current_page,
+        }
+
+        const resource = this.$resource('/api/books{/id}', params);
+        resource.get().then(response => {
+          this.items = response.data.data;
+          this.pagination.total = response.data.total;
+          this.pagination.per_page = response.data.per_page;
+          this.pagination.page = response.data.current_page;
+          this.pagination.last_page = response.data.last_page;
+        });
+      }
     }
   }
 </script>
