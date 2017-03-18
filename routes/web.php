@@ -21,6 +21,6 @@ $app->get('/admin', function() {
     return new BinaryFileResponse(base_path().'/public/static/admin/index.html');
 });
 
-$app->get('/store', function() {
+$app->get('/', function() {
     return new BinaryFileResponse(base_path().'/public/static/store/index.html');
 });
