@@ -21,6 +21,14 @@ Generate API documentation:
 php artisan api:docs
 ```
 
+Most of my code resides in these directories:
+```
+app/Models
+app/Http
+database/
+resources/
+```
+
 ## Deploy
 ```
 cp .env.example .env
