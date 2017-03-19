@@ -1,7 +1,7 @@
 <template>
   <div class="mdl-card mdl-shadow--2dp">
     <div class="mdl-card__media">
-      <a><img class="item-image" :src="item.cover_image"></a>
+      <a><img class="item-image" :src="item.image"></a>
     </div>
     <div class="mdl-card__title">
       <h3 class="mdl-card__title-text">
@@ -10,7 +10,7 @@
     </div>
     <div class="mdl-card__actions mdl-card--border">
       <strong class="mdl-typography--subhead">
-        <ins><span>{{item.price|priceFilter}}</span></ins>
+        <ins><span>{{item.price | priceFilter}}</span></ins>
       </strong>
       <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
         <i class="material-icons">add_shopping_cart</i>
@@ -36,14 +36,18 @@
   .mdl-card {
     width: 90%;
     transition: all .3s;
-    overflow: hidden
+    overflow: hidden;
+    margin: 0 auto;
+    .mdl-card__media {
+      background-color: #fafafa;
+    }
   }
 
   .item-image {
-    margin:0 auto;
+    margin: 0 auto;
     display: block;
     z-index: 1;
-    height:220px;
+    height: 220px;
     max-width: 100%;
     position: relative
   }
@@ -88,11 +92,10 @@
     }
   }
 
-  .mdl-card__media{
+  .mdl-card__media {
     overflow: hidden;
     position: relative
   }
-
 
 
 </style>
