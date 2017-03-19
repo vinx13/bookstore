@@ -6,12 +6,20 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * @Resource("Books", uri="api/books")
+ */
 class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return array
+     * @Get("/")
+     * @Parameters({
+     *     @Parameter("page", type="integer", description="current page"),
+     *     @Parameter("per_page", type="integer", description="items per page")
+     * })
      */
     public function getIndex(Request $request)
     {
@@ -28,6 +36,8 @@ class BookController extends Controller
      *
      * @param  integer $id
      * @return array
+     * @Get("/")
+     * @Parameters({@Parameter("id", type="integer", required=true, description="id")})
      */
     public function getDetail($id)
     {
@@ -45,6 +55,7 @@ class BookController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
+     * @Post("/")
      */
     public function postIndex(Request $request)
     {
@@ -70,6 +81,8 @@ class BookController extends Controller
      * @param  $id
      * @param  \Illuminate\Http\Request $request
      * @return array
+     * @Put("/")
+     * @Parameters({@Parameter("id", type="integer", required=true, description="id")})
      */
     public function putIndex($id, Request $request)
     {
@@ -91,6 +104,8 @@ class BookController extends Controller
      *
      * @param  $id
      * @return \Illuminate\Http\Response
+     * @Delete("/")
+     * @Parameters({@Parameter("id", type="integer", required=true, description="id")})
      */
     public function deleteIndex($id)
     {

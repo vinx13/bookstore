@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * @Resource("Users", uri="api/users")
+ */
 class UserController extends Controller
 {
     /**
@@ -13,6 +16,11 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
+     * @Get("/")
+     * @Parameters({
+     *     @Parameter("page", type="integer", description="current page"),
+     *     @Parameter("per_page", type="integer", description="items per page")
+     * })
      */
     public function getIndex(Request $request)
     {
@@ -27,6 +35,8 @@ class UserController extends Controller
      *
      * @param  $id
      * @return array
+     * @Get("/")
+     * @Parameters({@Parameter("id", type="integer", required=true, description="id")})
      */
     public function getDetail($id)
     {
@@ -42,6 +52,7 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @Post("/")
      */
     public function postIndex(Request $request)
     {
@@ -63,6 +74,8 @@ class UserController extends Controller
      * @param  $id
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @Put("/")
+     * @Parameters({@Parameter("id", type="integer", required=true, description="id")})
      */
     public function putIndex($id, Request $request)
     {
@@ -70,7 +83,6 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->password = $request->password;
         $user->email = $request->email;
-        $user->avatar = $request->avatar;
         $user->update();
         return [
             'data' => $user
@@ -82,6 +94,8 @@ class UserController extends Controller
      *
      * @param  $id
      * @return \Illuminate\Http\Response
+     * @Delete("/")
+     * @Parameters({@Parameter("id", type="integer", required=true, description="id")})
      */
     public function deleteIndex($id)
     {

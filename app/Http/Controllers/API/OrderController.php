@@ -6,12 +6,20 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * @Resource("Orders", uri="api/orders")
+ */
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return array
+     * @Get("/")
+     * @Parameters({
+     *     @Parameter("page", type="integer", description="current page"),
+     *     @Parameter("per_page", type="integer", description="items per page")
+     * })
      */
     public function getIndex(Request $request)
     {
@@ -25,6 +33,8 @@ class OrderController extends Controller
      *
      * @param  integer $id
      * @return array
+     * @Get("/")
+     * @Parameters({@Parameter("id", type="integer", required=true, description="id")})
      */
     public function getDetail($id)
     {
@@ -40,6 +50,7 @@ class OrderController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
+     * @Post("/")
      */
     public function postIndex(Request $request)
     {
@@ -62,6 +73,8 @@ class OrderController extends Controller
      * @param  $id
      * @param  \Illuminate\Http\Request $request
      * @return array
+     * @Put("/")
+     * @Parameters({@Parameter("id", type="integer", required=true, description="id")})
      */
     public function putIndex($id, Request $request)
     {
@@ -82,6 +95,8 @@ class OrderController extends Controller
      *
      * @param  $id
      * @return \Illuminate\Http\Response
+     * @Delete("/")
+     * @Parameters({@Parameter("id", type="integer", required=true, description="id")})
      */
     public function deleteIndex($id)
     {
