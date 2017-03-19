@@ -11,7 +11,7 @@ class BookSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Book::class, 5)->create()->each(function (App\Models\Book $u) {
+        factory(App\Models\Book::class, 300)->create()->each(function (App\Models\Book $u) {
             $author = App\Models\Author::all()->random();
             $u->authors()->attach($author->id, ['rank' => 1]);
             $u->save();

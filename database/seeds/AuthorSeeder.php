@@ -11,7 +11,7 @@ class AuthorSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Author::class, 5)->create()->each(function ($u) {
+        factory(App\Models\Author::class, 30)->create()->each(function ($u) {
             $u->save();
         });
     }
