@@ -8,9 +8,12 @@
 
 <script>
   export default {
-    name:'SiteFooter'
+    name: 'SiteFooter'
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  footer {
+    background-color: #fafafa;
+  }
 </style>

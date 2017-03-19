@@ -15,7 +15,10 @@ class BookController extends Controller
      */
     public function getIndex(Request $request)
     {
-        $books = Book::paginate($request->query('per_page'));
+        $books = Book::with(['authors' => function ($query) {
+            $query->orderBy('rank');
+        }])->paginate($request->query('per_page'));
+
         return $books;
     }
 
@@ -28,7 +31,9 @@ class BookController extends Controller
      */
     public function getDetail($id)
     {
-        $book = Book::find($id);
+        $book = Book::with(['images' => function ($query) {
+            $query->orderBy('rank');
+        }])->find($id);
         return [
             'data' => $book
         ];
@@ -47,9 +52,11 @@ class BookController extends Controller
         $book->name = $request->name;
         $book->description = $request->description;
         $book->isbn = $request->isbn;
-        $book->cover_image = $request->input('cover_image', 'default.jpg');
         $book->price = $request->price;
         $book->quantity = $request->quantity;
+        $book->image = $request->image;
+
+        // FIXME: Adding authors
         $book->save();
         return [
             'data' => $book
@@ -70,7 +77,7 @@ class BookController extends Controller
         $book->name = $request->name;
         $book->description = $request->description;
         $book->isbn = $request->isbn;
-        $book->cover_image = $request->input('cover_image', 'default.jpg');
+        $book->image = $request->image;
         $book->price = $request->price;
         $book->quantity = $request->quantity;
         $book->update();

@@ -32,6 +32,9 @@
   export default {
     name: 'app',
     router,
+    mounted() {
+      router.push('/books');
+    },
     components: {
       NavBar,
       SideBar,

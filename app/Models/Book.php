@@ -13,6 +13,14 @@ class Book extends Model
         return $this->hasMany('App\Models\Order');
     }
 
+    public function authors() {
+        return $this->belongsToMany('App\Models\Author');
+    }
+
+    public function category() {
+        return $this->belongsTo('App\Models\Category');
+    }
+
     protected $dates = [
         'created_at',
         'updated_at',

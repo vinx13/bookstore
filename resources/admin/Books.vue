@@ -121,6 +121,9 @@
       {
         this.$http.post('/api/books', item).then(response => {
           this.$refs.modal.hide();
+          if(this.pagination.current_page === this.pagination.last_page) {
+            this.items.push(response.data.data);
+          }
         });
       }
       ,

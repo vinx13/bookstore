@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Model
+class Author extends Model
 {
     use SoftDeletes;
 
-    public function orders() {
-        return $this->hasMany('App\Models\Order');
-    }
-
-    public function cart() {
-        return $this->hasOne('App\Models\Cart');
+    public function books()
+    {
+        return $this->belongsToMany('App\Models\Book');
     }
 
     protected $dates = [

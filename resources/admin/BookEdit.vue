@@ -42,6 +42,17 @@
                        placeholder="Quantity">
               </div>
             </div>
+            <div class="form-group">
+              <label for="inputImage" class="col-sm-2 control-label">Image Link</label>
+              <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inputImage" v-model="option.item.image" placeholder="Image">
+              </div>
+            </div>
+            <div class="form-group"  v-if="option.item.image" >
+              <div class="col-sm-10 col-sm-offset-2">
+                <img :src="option.item.image">
+              </div>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -88,4 +99,10 @@
 
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+  img{
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>

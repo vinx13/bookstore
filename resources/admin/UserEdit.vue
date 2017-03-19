@@ -29,6 +29,18 @@
                        placeholder="Password">
               </div>
             </div>
+            <div class="form-group">
+              <label for="inputAvatar" class="col-sm-2 control-label">Avatar</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputAvatar" v-model="option.item.avatar"
+                       placeholder="Password">
+              </div>
+            </div>
+            <div class="form-group"  v-if="option.item.avatar" >
+              <div class="col-sm-10 col-sm-offset-2">
+                <img :src="option.item.avatar">
+              </div>
+            </div>
           </form>
         </div>
         <div class="modal-footer">

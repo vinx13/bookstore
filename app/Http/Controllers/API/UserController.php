@@ -17,7 +17,6 @@ class UserController extends Controller
     public function getIndex(Request $request)
     {
         $users = User::paginate($request->query('per_page'));
-
         // TODO: sort_by
         return $users;
     }
@@ -50,6 +49,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->password = $request->password;
         $user->email = $request->email;
+        $user->avatar = $request->avatar;
         $user->save();
         return [
             'data' => $user
@@ -70,6 +70,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->password = $request->password;
         $user->email = $request->email;
+        $user->avatar = $request->avatar;
         $user->update();
         return [
             'data' => $user

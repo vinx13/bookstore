@@ -13,8 +13,7 @@
           <card :item="item"></card>
         </div>
       </div>
-      <pagination :pagination="pagination" :callback="loadData"
-                  :options="paginationOptions"></pagination>
+      <pagination :pagination="pagination" :callback="loadData"></pagination>
       <site-footer></site-footer>
     </main>
   </div>
@@ -43,12 +42,6 @@
           per_page: 12,    // required
           current_page: 1, // required
           last_page: 1,    // required
-        },
-        paginationOptions: {
-          offset: 4,
-          previousText: 'Prev',
-          nextText: 'Next',
-          alwaysShowPrevNext: true
         }
       }
     },
@@ -66,6 +59,7 @@
     },
     methods: {
       loadData(){
+        //this.items.each(item => item.cover_image = '');
         const params = {
           per_page: this.pagination.per_page,
           page: this.pagination.current_page,

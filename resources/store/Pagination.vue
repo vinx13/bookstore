@@ -3,9 +3,7 @@
     <div class="mdl-cell mdl-cell--12-col">
       <ul class="pagination" v-if="pagination.last_page > 0">
         <li v-if="showPrevious()" :class="{ disabled : pagination.current_page <= 1 }">
-                <span v-if="pagination.current_page <= 1" class="mdl-button pagination-link">«</span>
-
-
+          <span v-if="pagination.current_page <= 1" class="mdl-button pagination-link">«</span>
           <a href="#" v-if="pagination.current_page > 1"
              @click.prevent="changePage(pagination.current_page - 1)"
              class="mdl-button mdl-js-button mdl-js-ripple-effect pagination-link">«
@@ -13,14 +11,15 @@
         </li>
         <li v-for="num in array">
           <a href="#" @click.prevent="changePage(num)"
-             :class="{ active: num === pagination.current_page }" class="mdl-button mdl-js-button mdl-js-ripple-effect pagination-link">{{ num }}</a>
+             :class="{ active: num === pagination.current_page }"
+             class="mdl-button mdl-js-button mdl-js-ripple-effect pagination-link">{{ num }}</a>
         </li>
         <li v-if="showNext()"
             :class="{ disabled: pagination.current_page === pagination.last_page || pagination.last_page === 0 }">
-          <span v-if="pagination.current_page === pagination.last_page || pagination.last_page === 0" class="mdl-button pagination-link">
+          <span v-if="pagination.current_page === pagination.last_page || pagination.last_page === 0"
+                class="mdl-button pagination-link">
             »
           </span>
-
           <a href="#" v-if="pagination.current_page < pagination.last_page"
              @click.prevent="changePage(pagination.current_page + 1)"
              class="mdl-button mdl-js-button mdl-js-ripple-effect pagination-link">»
@@ -35,6 +34,14 @@
   export default {
     name: 'Pagination',
 
+    data() {
+      return {
+        config: {
+          offset: 3,
+          alwaysShowPrevNext: false
+        }
+      }
+    },
     props: {
       pagination: {
         type: Object,
@@ -43,9 +50,6 @@
       callback: {
         type: Function,
         required: true
-      },
-      options: {
-        type: Object
       },
       size: {
         type: String
@@ -71,12 +75,6 @@
 
         return arr;
       },
-      config () {
-        return Object.assign({
-          offset: 3,
-          alwaysShowPrevNext: false
-        }, this.options);
-      }
     },
     watch: {
       'pagination.per_page' (newVal, oldVal) {
@@ -108,11 +106,13 @@
     list-style-type: none;
     display: inline-block;
   }
+
   .pagination {
     margin: 0;
     padding: 0;
     text-align: center
   }
+
   .pagination-link {
     width: 40px;
     height: 40px;
@@ -122,7 +122,8 @@
     box-sizing: border-box;
     opacity: .4
   }
-  .active{
+
+  .active {
     opacity: 1
   }
 </style>
