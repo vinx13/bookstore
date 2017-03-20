@@ -1,6 +1,6 @@
 <template>
   <header class="mdl-layout__header mdl-layout__header--waterfall">
-    <div class="mdl-layout__header-row"><a class="mdl-layout-title" href="index.html"><b>Bookstore</b></a>
+    <div class="mdl-layout__header-row"><a class="mdl-layout-title" href="/"><b>Bookstore</b></a>
       <div class="mdl-layout-spacer"></div>
       <div
           class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
