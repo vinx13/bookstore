@@ -1,13 +1,14 @@
 buildscript {
-	ext {
-		springBootVersion = '1.5.2.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    ext {
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'org.springframework:springloaded:1.2.6.RELEASE' // class reloading
+    }
 }
 
 apply plugin: 'java'
@@ -18,13 +19,43 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.session:spring-session')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    // core
+    compile 'org.springframework.boot:spring-boot-starter-web'
+
+    // security
+    // compile 'org.springframework.boot:spring-boot-starter-security'
+
+    // JPA
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-data-rest'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+
+    // dev tool
+    compile 'org.springframework.boot:spring-boot-devtools'
+
+    // thymeleaf
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'net.sourceforge.nekohtml:nekohtml:1.9.22'
+
+    // session
+    compile 'org.springframework.session:spring-session'
+    compile 'org.springframework.data:spring-data-redis'
+    compile 'redis.clients:jedis'
+
+    // jsp
+    //compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+    //compile 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
 }
