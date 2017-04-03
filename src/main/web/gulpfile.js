@@ -8,7 +8,6 @@ const del = require('del')
 const rename = require('gulp-rename')
 const cssnano = require('gulp-cssnano')
 const minimist = require('minimist')
-const inject = require('gulp-inject')
 const babelify = require('babelify')
 const webpack = require('webpack')
 const gutil = require('gulp-util')
@@ -118,7 +117,7 @@ gulp.task('clean', function () {
       '../resources/static/styles/**',
       '../resources/static/scripts/**',
       '../resources/static/fonts/**'
-    ]);
+    ], {force:true});
   } catch (e) {
   }
 });
@@ -158,8 +157,8 @@ gulp.task('watch', function () {
   gulp.watch([
     assets.admin.styles,
     assets.admin.scripts,
-    assert.fonts
-  ], ['build-without-webpack']);
+    assets.fonts
+  ], ['write-property']);
 });
 
 
