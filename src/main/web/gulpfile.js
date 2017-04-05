@@ -15,6 +15,7 @@ const filenames = require("gulp-filenames");
 const fs = require('fs');
 const WebpackDevServer = require("webpack-dev-server");
 
+
 // Load assets.json
 const assets = require('./assets')
 
@@ -124,10 +125,11 @@ gulp.task('clean', function () {
 
 gulp.task("dev", ['build-without-webpack'], function () {
   // Start a webpack-dev-server
+  webpackConfig.devtool='#source-map'
   const compiler = webpack(webpackConfig);
 
   new WebpackDevServer(compiler, {
-    contentBase: "../resources/static",
+    contentBase: '../resources/static',
     noInfo: false, //  --no-info option
     hot: true,
     inline: true,

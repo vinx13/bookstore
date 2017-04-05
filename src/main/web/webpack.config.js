@@ -4,8 +4,8 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   entry: {
-    admin: './admin/index.js',
-    store: './store/index.js'
+    admin: './admin/main.js',
+    store: './store/main.js'
   },
   externals: [{"jquery": "window.jQuery"}],
   output: {
