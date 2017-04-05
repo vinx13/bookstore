@@ -1,9 +1,7 @@
 package me.vincentlin.bookstore.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Vincent on 2017/3/25.
@@ -15,6 +13,8 @@ public class Genre {
     @GeneratedValue
     private Long id;
     private String name;
+    @OneToMany(mappedBy = "genre")
+    private List<Book> books;
 
     public Long getId() {
         return id;
