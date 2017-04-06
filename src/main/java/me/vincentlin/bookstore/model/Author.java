@@ -21,7 +21,7 @@ public class Author {
     private String name;
 
     @ManyToMany(mappedBy = "authors")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Book> books = new ArrayList<>();
 
     public Long getId() {

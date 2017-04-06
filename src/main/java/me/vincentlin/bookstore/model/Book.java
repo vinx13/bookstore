@@ -26,6 +26,7 @@ public class Book {
     @Column(columnDefinition = "DECIMAL(6,2)")
     private Double price;
     @ManyToMany
+    @JsonManagedReference
     private List<Author> authors = new ArrayList<>();
 
     @ManyToOne

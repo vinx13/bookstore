@@ -1,5 +1,7 @@
 package me.vincentlin.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+
 import javax.persistence.*;
 import java.util.List;
 
