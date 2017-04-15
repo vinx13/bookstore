@@ -16,6 +16,8 @@ import java.util.List;
  */
 public interface CartService {
     List<CartItem> getItems(User user);
+    void addOne(User user, Book book);
     void setItem(User user, Book book, Long quantity);
-    void removeItem(User user, Book book);
+    void removeOne(User user, Book book);
+    void removeOne(Long id);
 }
