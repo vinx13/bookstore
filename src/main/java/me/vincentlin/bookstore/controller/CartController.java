@@ -1,16 +1,17 @@
 package me.vincentlin.bookstore.controller;
 
 import me.vincentlin.bookstore.dao.BookRepository;
+import me.vincentlin.bookstore.dao.CartRepository;
 import me.vincentlin.bookstore.dao.UserRepository;
-import me.vincentlin.bookstore.model.Book;
-import me.vincentlin.bookstore.model.CartItem;
-import me.vincentlin.bookstore.model.User;
+import me.vincentlin.bookstore.model.*;
 import me.vincentlin.bookstore.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,15 +25,28 @@ public class CartController {
     UserRepository userRepository;
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    CartRepository cartRepository;
 
     @GetMapping("/api/user/cart")
     public List<CartItem> getItems(Principal principal) {
-        User user = getCurrentUser(principal);
-        return cartService.getItems(user);
+        return cartRepository.findAll();
     }
 
-    @PostMapping("/api/user/cart")
-    public ResponseEntity<?> postItem(Principal principal, @RequestParam("book_id") Long bookId, @RequestParam("quantity") Long quantity) {
+    @GetMapping("/api/user/cart/{bookId}")
+    public ResponseEntity<?> addOne(Principal principal, @PathVariable Long bookId) {
+        User user = getCurrentUser(principal);
+        Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            return ResponseEntity.notFound().build();
+        }
+        cartService.addOne(user, book);
+        List<CartItem> items = cartService.getItems(user);
+        return ResponseEntity.ok(items);
+    }
+
+    @PutMapping("/api/user/cart/{bookId}")
+    public ResponseEntity<?> setItem(Principal principal, @PathVariable Long bookId, @RequestParam("quantity") Long quantity) {
         User user = getCurrentUser(principal);
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
@@ -42,13 +56,25 @@ public class CartController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/api/user/cart{/id}")
-    public ResponseEntity<?> deleteItem(Principal principal, @RequestParam("id") Long id) {
-        cartService.removeItem(id);
+    @DeleteMapping("/api/user/cart/{id}")
+    public ResponseEntity<?> removeOne(Principal principal, @PathVariable Long id) {
+        /*
+        User user = getCurrentUser(principal);
+
+        Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            return ResponseEntity.notFound().build();
+        }
+        cartService.removeOne(user, book);
+        return ResponseEntity.noContent().build();
+        */
+        // TODO: check permission
+        cartService.removeOne(id);
         return ResponseEntity.noContent().build();
     }
 
     private User getCurrentUser(Principal principal) {
+        if (principal == null) return null;
         String username = principal.getName();
         User user = userRepository.findByUsername(username);
         return user;
