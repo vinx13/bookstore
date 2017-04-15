@@ -1,6 +1,7 @@
 package me.vincentlin.bookstore.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,18 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Controller
 public class HomeController {
-    @RequestMapping("/")
+    @GetMapping("/")
     public String getStoreIndex() {
         return "store/index";
     }
 
-    @RequestMapping("/admin")
+    @GetMapping("/admin")
     public String getAdminIndex() {
         return "admin/index";
-    }
-
-    @RequestMapping("/login")
-    public String getLogin() {
-        return "login";
     }
 }
