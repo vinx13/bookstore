@@ -1,5 +1,6 @@
 package me.vincentlin.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class User {
     @GeneratedValue
     private Long id;
     private String username;
+    @JsonIgnore
     private String password;
     @NaturalId
     private String email;

@@ -3,6 +3,7 @@ package me.vincentlin.bookstore.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.rest.core.config.Projection;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class Author {
     private String name;
 
     @ManyToMany(mappedBy = "authors")
-    @JsonBackReference
     private List<Book> books = new ArrayList<>();
 
     public Long getId() {

@@ -2,6 +2,8 @@ package me.vincentlin.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 
 import javax.persistence.*;
 
@@ -12,18 +14,18 @@ import javax.persistence.*;
 public class CartItem {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn
     @JsonIgnore
-    User user;
+    private User user;
 
     @ManyToOne
     @JoinColumn
-    Book book;
+    private Book book;
 
-    Long quantity;
+    private Long quantity;
 
     public Long getId() {
         return id;

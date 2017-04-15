@@ -17,7 +17,8 @@ public class OrderEntry {
     @JoinColumn
     private Book book;
 
-    private Long unitPrice;
+    @Column(columnDefinition = "DECIMAL(6,2)")
+    private Double unitPrice;
     private Long quantity;
 
     public Long getId() {
@@ -36,11 +37,11 @@ public class OrderEntry {
         this.book = book;
     }
 
-    public Long getUnitPrice() {
+    public Double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Long unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
