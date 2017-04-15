@@ -7,9 +7,5 @@ import me.vincentlin.bookstore.model.User;
  */
 public interface UserService {
     void createUser(User user);
-
     User findByUsername(String username);
-
-    void save(User user);
-
 }

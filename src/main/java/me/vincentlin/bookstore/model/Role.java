@@ -3,6 +3,7 @@ package me.vincentlin.bookstore.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,9 +14,10 @@ public class Role {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(unique = true)
     private String name;
     @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public Role() {
     }
