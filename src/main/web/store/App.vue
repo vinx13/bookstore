@@ -18,7 +18,8 @@
         <site-footer></site-footer>
       </main>
     </div>
-    <cart :items="cartItems"></cart>
+    <cart v-if='isLogin' :items="cartItems"></cart>
+    <div><vue-toast ref='toast'></vue-toast></div>
   </section>
 </template>
 
@@ -27,12 +28,13 @@
   import SideBar from './SideBar.vue'
   import Card from './Card.vue'
   import Vue from 'vue'
-  import Vuex from 'vuex'
+  import Vuex, {mapState} from 'vuex'
   import VueResource from 'vue-resource'
   import SiteFooter from "./Footer.vue"
   import Pagination from './Pagination.vue'
   import Cart from './Cart.vue'
 
+  import VueToast from 'vue-toast'
 
   Vue.use(VueResource);
   Vue.use(Vuex)
@@ -40,8 +42,8 @@
   const store = new Vuex.Store({
     state: {
       isLogin: false,
-      cartItems: []
-    }, mutations: {
+    },
+    mutations: {
       login(state){
         state.isLogin = true
       },
@@ -72,10 +74,15 @@
       SideBar,
       Card,
       Pagination,
-      Cart
+      Cart,
+      VueToast
     },
     mounted() {
-      this.loadData();
+      this.loadData()
+      this.loadUserData()
+      const toast= this.$refs.toast
+      console.log(toast)
+      toast.showToast('hello world',{closeBtn:true})
     },
     updated(){
       componentHandler.upgradeAllRegistered();
@@ -94,8 +101,15 @@
             this.pagination.per_page = response.data.page.size;
             this.pagination.last_page = response.data.page.totalPages - 1;
           });
+      },
+      loadUserData() {
+        this.$http.get('/api/user').then(response => {
+          console.log(response)
+          this.$store.commit('login')
+          this.loadCart();
+        }, err => {
 
-        this.$http.get('/api/user').then(response => this.loadCart())
+        })
       },
       loadCart() {
         this.$http.get('/api/user/cart').then(response => {
@@ -103,15 +117,22 @@
         })
       },
       add_to_cart(item){
-        this.$resource('/api/user/cart{/id}').get({id: item.id}).then(response => {
-          this.cartItems = response.data
-        })
+        if (!this.isLogin) {
+          console.log("please login")
+          this.$refs.toast.showToast('Please login')
+        } else {
+          this.$resource('/api/user/cart{/id}').get({id: item.id}).then(response => {
+            this.cartItems = response.data
+          })
+        }
       }
-    }
+    },
+    computed: mapState(['isLogin'])
   }
 </script>
 
 <style lang="scss">
+  @import "~vue-toast/dist/vue-toast.min.css";
   @media screen and (min-width: 840px) {
     .mdl-grid--no-fullwidth {
       width: 1170px;

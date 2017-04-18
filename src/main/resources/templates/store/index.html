@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <title>Bookstore</title>
+
+  <link rel="stylesheet" data-th-each="style:${storeAsset.styles}" data-th-href="${style}">
+  <link rel="stylesheet" href="/styles/store-bundle.css">
+</head>
+
+<body>
+<div id="app"></div>
+<script data-th-each="script:${storeAsset.scripts}" data-th-src="${script}"></script>
+<script src="/scripts/store-bundle.js"></script>
+
+</body>
+
+</html>
