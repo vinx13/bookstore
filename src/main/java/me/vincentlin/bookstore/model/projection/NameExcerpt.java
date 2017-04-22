@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.config.Projection;
  * Created by Vincent on 2017/4/4.
  */
 @Projection(types = {Genre.class, Book.class, Author.class})
-public interface NameProjection {
+public interface NameExcerpt {
     String getName();
 }
 
