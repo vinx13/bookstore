@@ -33,12 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and().authorizeRequests()
                 .antMatchers("/fonts/**", "/scripts/**", "/scripts/**").permitAll()
-                //.anyRequest().authenticated()
+                .antMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()
-                .logout()
+                .logout().logoutSuccessUrl("/")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")) // FIXME
                 .permitAll();
 
@@ -49,11 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder())
-                .and()
-                .inMemoryAuthentication()
-                .withUser("user").password("user").roles("USER")
-                .and()
-                .withUser("admin").password("admin").roles("ADMIN");
+                .passwordEncoder(bCryptPasswordEncoder());
     }
 }
