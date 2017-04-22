@@ -18,7 +18,7 @@ public class User {
     private String username;
     @JsonIgnore
     private String password;
-    @NaturalId
+
     private String email;
 
     @Transient
