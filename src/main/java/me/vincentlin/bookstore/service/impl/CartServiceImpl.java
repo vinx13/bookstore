@@ -58,16 +58,22 @@ public class CartServiceImpl implements CartService {
     public void removeOne(User user, Book book) {
         CartItem item = cartRepository.findByUserIdAndBookId(user.getId(), book.getId());
         cartRepository.delete(item);
-    }
-
-    @Override
-    public void removeOne(Long id) {
-        CartItem item = cartRepository.findOne(id);
         if (item.getQuantity() == 1) {
-            cartRepository.delete(id);
+            cartRepository.delete(item);
         } else {
             item.setQuantity(item.getQuantity() - 1);
             cartRepository.save(item);
         }
+    }
+
+    @Override
+    public void removeAll(User user) {
+        List<CartItem> items = cartRepository.findByUserId(user.getId());
+        cartRepository.delete(items);
+    }
+
+    @Override
+    public List<CartItem> findByUser(User user) {
+        return cartRepository.findByUserId(user.getId());
     }
 }

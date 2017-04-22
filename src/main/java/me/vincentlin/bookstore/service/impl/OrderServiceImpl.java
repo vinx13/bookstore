@@ -3,10 +3,7 @@ package me.vincentlin.bookstore.service.impl;
 import me.vincentlin.bookstore.dao.BookRepository;
 import me.vincentlin.bookstore.dao.OrderEntryRepository;
 import me.vincentlin.bookstore.dao.OrderRepository;
-import me.vincentlin.bookstore.model.CartItem;
-import me.vincentlin.bookstore.model.Order;
-import me.vincentlin.bookstore.model.OrderEntry;
-import me.vincentlin.bookstore.model.User;
+import me.vincentlin.bookstore.model.*;
 import me.vincentlin.bookstore.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,20 +26,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order checkout(User user, List<CartItem> items) {
+        if (items == null || items.isEmpty()) return null;
+
+        Order order = new Order();
         List<OrderEntry> entries = new ArrayList<>(items.size());
+
         for (CartItem item : items) {
             OrderEntry entry = new OrderEntry();
             entry.setBook(item.getBook());
             entry.setQuantity(item.getQuantity());
             Double price = item.getBook().getPrice();
             entry.setUnitPrice(price);
+            entry.setOrder(order);
             entries.add(entry);
         }
-        Order order = new Order();
         order.setEntries(entries);
         order.setUser(user);
-        orderEntryRepository.save(entries);
         orderRepository.save(order);
+
         return order;
     }
 }
