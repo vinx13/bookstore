@@ -21,6 +21,7 @@ public class Book {
     private Long id;
     private String name;
     private String isbn;
+    private String description;
     private String image;
     private Long inventory;
     @Column(columnDefinition = "DECIMAL(6,2)")
@@ -93,5 +94,13 @@ public class Book {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

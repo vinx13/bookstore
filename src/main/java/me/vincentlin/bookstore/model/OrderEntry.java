@@ -21,6 +21,10 @@ public class OrderEntry {
     private Double unitPrice;
     private Long quantity;
 
+    @ManyToOne
+    @JoinColumn
+    private Order order;
+
     public Long getId() {
         return id;
     }
@@ -51,5 +55,13 @@ public class OrderEntry {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

@@ -1,14 +1,16 @@
 package me.vincentlin.bookstore.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Vincent on 2017/4/1.
  */
 @Entity
-@Table(name="\"Order\"")
+@Table(name = "\"Order\"")
 public class Order {
     @Id
     @GeneratedValue
@@ -18,8 +20,11 @@ public class Order {
     @JoinColumn
     User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderEntry> entries;
+
+    @CreationTimestamp
+    private Date createdAt;
 
     public Long getId() {
         return id;
@@ -30,7 +35,7 @@ public class Order {
     }
 
     public User getUser() {
-       return user;
+        return user;
     }
 
     public void setUser(User user) {
@@ -43,6 +48,14 @@ public class Order {
 
     public void setEntries(List<OrderEntry> entries) {
         this.entries = entries;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
 }
