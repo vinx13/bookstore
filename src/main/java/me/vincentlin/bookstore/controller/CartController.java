@@ -30,7 +30,8 @@ public class CartController {
 
     @GetMapping("/api/user/cart")
     public List<CartItem> getItems(Principal principal) {
-        return cartRepository.findAll();
+        User user = getCurrentUser(principal);
+        return cartService.findByUser(user);
     }
 
     @GetMapping("/api/user/cart/{bookId}")
@@ -53,24 +54,20 @@ public class CartController {
             return ResponseEntity.notFound().build();
         }
         cartService.setItem(user, book, quantity);
-        return ResponseEntity.noContent().build();
+        List<CartItem> items = cartService.getItems(user);
+        return ResponseEntity.ok(items);
     }
 
-    @DeleteMapping("/api/user/cart/{id}")
-    public ResponseEntity<?> removeOne(Principal principal, @PathVariable Long id) {
-        /*
+    @DeleteMapping("/api/user/cart/{bookId}")
+    public ResponseEntity<?> removeOne(Principal principal, @PathVariable Long bookId) {
         User user = getCurrentUser(principal);
-
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
             return ResponseEntity.notFound().build();
         }
         cartService.removeOne(user, book);
-        return ResponseEntity.noContent().build();
-        */
-        // TODO: check permission
-        cartService.removeOne(id);
-        return ResponseEntity.noContent().build();
+        List<CartItem> items = cartService.getItems(user);
+        return ResponseEntity.ok(items);
     }
 
     private User getCurrentUser(Principal principal) {

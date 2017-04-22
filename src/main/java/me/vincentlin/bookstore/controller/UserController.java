@@ -2,6 +2,7 @@ package me.vincentlin.bookstore.controller;
 
 import me.vincentlin.bookstore.dao.UserRepository;
 import me.vincentlin.bookstore.model.User;
+import me.vincentlin.bookstore.model.UserValidator;
 import me.vincentlin.bookstore.service.SecurityService;
 import me.vincentlin.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -17,6 +19,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private SecurityService securityService;
+    @Autowired
+    private UserValidator userValidator;
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -26,7 +30,7 @@ public class UserController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
-
+        userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "registration";
         }

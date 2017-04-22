@@ -25,7 +25,7 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/api/orders")
+    @PostMapping("/api/checkout")
     public Order newOrder(Principal principal) {
         User user=getCurrentUser(principal);
         List<CartItem> items = cartService.getItems(user);

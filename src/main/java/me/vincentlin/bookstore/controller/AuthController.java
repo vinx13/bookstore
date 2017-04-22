@@ -12,9 +12,8 @@ import java.security.Principal;
  */
 
 @RestController
-@RequestMapping("/api/user")
 public class AuthController {
-    @GetMapping("/")
+    @GetMapping("/api/user")
     public ResponseEntity<?> user(Principal user) {
         if (user != null)
             return ResponseEntity.ok(user);
