@@ -1,18 +1,18 @@
 <template>
   <div class="mdl-card mdl-shadow--2dp">
-    <div class="mdl-card__media">
+    <div class="mdl-card__media" v-on:click="showDetail">
       <a><img class="item-image" :src="item.image"></a>
     </div>
-    <div class="mdl-card__title">
+    <div class="mdl-card__title" v-on:click="showDetail">
       <h3 class="mdl-card__title-text">
         <a class="mdl-typography--title mdl-typography--font-light">{{item.name}}</a>
       </h3>
     </div>
     <div class="mdl-card__actions mdl-card--border">
       <strong class="mdl-typography--subhead">
-        <ins><span>{{item.price}}</span></ins>
+        <ins><span>{{item.price | currency}}</span></ins>
       </strong>
-      <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" v-on:click="add_to_cart(item)">
+      <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" v-on:click="addToCart">
         <i class="material-icons">add_shopping_cart</i>
         <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
       </button>
@@ -30,8 +30,11 @@
       }
     },
     methods:{
-      add_to_cart(item) {
-        this.$emit('add_to_cart',item)
+      addToCart() {
+        this.$emit('addToCart',this.item)
+      },
+      showDetail() {
+        this.$router.push('/detail/' + this.item.id)
       }
     }
   }
@@ -76,6 +79,7 @@
   .mdl-card__title {
     display: block;
     width: 100%;
+    cursor: pointer;
 
     .mdl-card__title-text {
       //height: 28px;
@@ -95,6 +99,7 @@
   }
 
   .mdl-card__media {
+    cursor: pointer;
     overflow: hidden;
     position: relative
   }

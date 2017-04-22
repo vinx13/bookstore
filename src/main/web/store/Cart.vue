@@ -11,13 +11,13 @@
       <div class="cart-body">
         <ul>
           <li class="item" v-for="item in items">
-            <a class="item-icon">
+            <a class="item-image">
               <img :src="item.book.image">
             </a>
 
             <div class="item-text">
               <a class="item-title">{{ item.book.name}}</a>
-              <span class="item-subtitle">$ {{ item.book.price }} x{{item.quantity}}</span>
+              <span class="item-subtitle">{{ item.book.price | currency}} x{{item.quantity}}</span>
             </div>
 
             <div>
@@ -33,7 +33,7 @@
         <div class="cart-actions">
 
           <div class="divider"></div>
-          <h3 class="total">Total: $ {{ total }}</h3>
+          <h3 class="total">Total: {{ total | currency }}</h3>
           <div class="divider"></div>
 
           <div class="mdl-grid">
@@ -84,12 +84,8 @@
         this.active = !this.active
       },
       removeOne(item) {
-        this.$resource('/api/user/cart{/id}').remove({id: item.id}).then(response => {
-          if (item.quantity == 1) {
-            this.items.splice(this.items.indexOf(item), 1)
-          } else {
-            item.quantity -= 1
-          }
+        this.$resource('/api/user/cart{/id}').remove({id: item.book.id}).then(response => {
+          this.$state.commit('updateCart', response.data)
         })
       },
       checkout(){
@@ -156,7 +152,7 @@
     text-overflow: ellipsis
   }
 
-  .item-icon {
+  .item-image {
     display: block;
     width: 40px;
     height: 40px;
@@ -164,7 +160,10 @@
     margin-bottom: 8px;
     margin-right: 16px;
     box-sizing: content-box;
-    box-shadow: 0 0 2px 0 #d8d8d8
+    box-shadow: 0 0 2px 0 #d8d8d8;
+    img {
+      max-width: 100%;
+    }
   }
 
   .item-title {

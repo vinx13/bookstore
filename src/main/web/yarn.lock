@@ -1504,19 +1504,6 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-datatables.net-bs@^1.10.13:
-  version "1.10.13"
-  resolved "http://registry.npm.taobao.org/datatables.net-bs/download/datatables.net-bs-1.10.13.tgz#794ab40a21afdf8b40ff762f7ea9a06ead9f8a2c"
-  dependencies:
-    datatables.net ">=1.10.9"
-    jquery ">=1.7"
-
-datatables.net@>=1.10.9:
-  version "1.10.13"
-  resolved "http://registry.npm.taobao.org/datatables.net/download/datatables.net-1.10.13.tgz#6ac584ba6fc2dff1195e5c66d3e3b051a4b52b96"
-  dependencies:
-    jquery ">=1.7"
-
 date-now@^0.1.4:
   version "0.1.4"
   resolved "http://registry.npm.taobao.org/date-now/download/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
@@ -2898,7 +2885,7 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-jquery@>=1.7, jquery@^3.1.1:
+jquery@^3.1.1:
   version "3.1.1"
   resolved "http://registry.npm.taobao.org/jquery/download/jquery-3.1.1.tgz#347c1c21c7e004115e0a4da32cece041fad3c8a3"
 
@@ -5421,6 +5408,14 @@ vue-template-compiler@^2.0.0-alpha.8, vue-template-compiler@^2.2.2:
 vue-template-es2015-compiler@^1.2.2:
   version "1.5.1"
   resolved "http://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.5.1.tgz#0c36cc57aa3a9ec13e846342cb14a72fcac8bd93"
+
+vue-toast@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.taobao.org/vue-toast/download/vue-toast-3.0.0.tgz#85924a87f7b5d5827af609b4ea676e50008e07a0"
+
+vue2-filters@^0.1.7:
+  version "0.1.7"
+  resolved "http://registry.npm.taobao.org/vue2-filters/download/vue2-filters-0.1.7.tgz#af966d30391603e837c15edc077ee0271e7a2265"
 
 vue@^2.2.2:
   version "2.2.2"

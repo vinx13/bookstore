@@ -16,4 +16,9 @@
   footer {
     background-color: #fafafa;
   }
+
+  a {
+    color: #3030f0;
+    text-decoration-line: none;
+  }
 </style>

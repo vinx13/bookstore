@@ -1,14 +1,16 @@
 <template>
   <div class="mdl-layout__drawer">
-    <a class="mdl-layout-title" href="/">Bookstore</a>
+    <span class="mdl-layout-title">Bookstore</span>
+    <span class="mdl-navigation__link-divider"></span>
+
+
     <nav class="mdl-navigation">
-      <span class="mdl-navigation__link-divider"></span>
       <a v-if="!isLogin" class="mdl-navigation__link" href="/login">
         <i class="material-icons mdl-navigation__icon">face</i>
         Sign In
       </a>
       <a v-if="!isLogin" class="mdl-navigation__link" href="/registration">
-        <i class="material-icons mdl-navigation__icon">directions_up</i>
+        <i class="material-icons mdl-navigation__icon">directions_walk</i>
         Sign Up
       </a>
       <a v-if="isLogin" class="mdl-navigation__link" href="/logout">
@@ -28,6 +30,5 @@
   }
 </script>
 
-<style>
-
+<style scoped>
 </style>

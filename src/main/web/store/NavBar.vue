@@ -1,7 +1,7 @@
 <template>
   <header class="mdl-layout__header mdl-layout__header--waterfall">
     <div class="mdl-layout__header-row">
-      <a class="mdl-layout-title" href="/"><b>Bookstore</b></a>
+      <router-link to="/" class="mdl-layout-title" href="/"><b>Bookstore</b></router-link>
       <div class="mdl-layout-spacer"></div>
 
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
@@ -15,6 +15,7 @@
         </div>
       </div>
     </div>
+    <!--
     <div class="mdl-layout__header-row">
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation mdl-layout--large-screen-only">
@@ -22,6 +23,7 @@
         <a class="mdl-navigation__link">CHECKOUT</a>
       </nav>
     </div>
+    -->
   </header>
 </template>
 
@@ -31,6 +33,9 @@
   }
 </script>
 
-<style>
-
+<style scoped>
+.mdl-layout-title{
+  color: white;
+  text-decoration-line: none;
+}
 </style>
