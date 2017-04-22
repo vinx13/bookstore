@@ -22,7 +22,7 @@
 
         <li class="mdl-list__item ">
           <span class="mdl-list__item-primary-content">
-            <b>Genre</b>{{genre.name}}
+            <b>Genre</b>{{meta.genre.name}}
           </span>
         </li>
 
@@ -35,7 +35,12 @@
 
     </div>
     <div class="mdl-grid mdl-grid--no-fullwidth">
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="addToCart">Add to Cart</button>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="addToCart">
+        Add to Cart
+
+
+
+      </button>
     </div>
   </main>
 </template>
@@ -56,12 +61,11 @@
     methods: {
       loadData() {
         this.$resource('/api/books{/id}').get({id: this.itemId}).then(response => {
-          console.log(response.data)
           this.item = response.data
         })
       },
       addToCart() {
-        this.$emit('addToCart',this.item)
+        this.$emit('addToCart', this.item)
       }
     },
     computed: {
@@ -69,14 +73,17 @@
         const params = this.$route.params
         return params ? params.id : null
       },
-      authors() {
-        return this.item ? this.item.content[0].value : null
+      meta() {
+        return this.item ?
+          this.item.content.reduce((obj, pair) => {
+            obj[pair.rel] = pair.value
+            return obj
+          }, {})
+          : {authors: [], genre: {}}
       },
+
       authorNameList() {
-        return this.authors.map(author => author.name).join(' / ')
-      },
-      genre() {
-        return this.item ? this.item.content[1].value : null
+        return this.meta.authors.map(author => author.name).join(' / ')
       }
     }
   }

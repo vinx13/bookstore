@@ -80,7 +80,7 @@
       },
       loadCart() {
         this.$http.get('/api/user/cart').then(response => {
-          this.cartItems = response.data
+          this.$store.commit('updateCart', response.data)
         })
       },
       addToCart(book){
@@ -89,13 +89,13 @@
           this.$refs.toast.showToast('Please login', {theme: 'error', timeLife: 3000})
         } else {
           this.$resource('/api/user/cart{/id}').get({id: book.id}).then(response => {
-            this.$state.commit('updateCart', response.data)
+            this.$store.commit('updateCart', response.data)
           })
         }
       }
 
     },
-    computed: mapState(['isLogin'])
+    computed: mapState(['isLogin', 'cartItems'])
   }
 </script>
 

@@ -85,11 +85,14 @@
       },
       removeOne(item) {
         this.$resource('/api/user/cart{/id}').remove({id: item.book.id}).then(response => {
-          this.$state.commit('updateCart', response.data)
+          this.$store.commit('updateCart', response.data)
         })
       },
       checkout(){
-        this.$http.post('/api/orders');
+        this.$http.post('/api/checkout').then(response=>{
+          window.location.reload()
+        })
+
       }
     }
   }
