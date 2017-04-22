@@ -51,7 +51,7 @@
       submit() {
         const id = this.itemId
         if (id) {
-          this.$http.$resource('/api/users{/id}').put({id: id}, target).then(response => {
+          this.$resource('/api/users{/id}').update({id: id}, this.target).then(response => {
             this.back()
           })
         } else {

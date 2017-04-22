@@ -25,14 +25,14 @@
         <div class="form-group">
           <label for="inputPrice" class="col-sm-2 control-label">Price</label>
           <div class="col-sm-10">
-            <input type="number" class="form-control" id="inputPrice" v-model="target.price" placeholder="Price">
+            <input type="number" step="0.01" class="form-control" id="inputPrice" v-model="target.price" placeholder="Price">
           </div>
         </div>
         <div class="form-group">
-          <label for="inputQuantity" class="col-sm-2 control-label">Quantity</label>
+          <label for="inputInventory" class="col-sm-2 control-label">Inventory</label>
           <div class="col-sm-10">
-            <input type="number" class="form-control" id="inputQuantity" v-model="target.inventoryy"
-                   placeholder="Quantity">
+            <input type="number" class="form-control" id="inputInventory" v-model="target.inventory"
+                   placeholder="Inventory">
           </div>
         </div>
         <div class="form-group">
@@ -86,7 +86,7 @@
       submit() {
         const id = this.itemId
         if (id) {
-          $http.$resource('/api/books{/id}').put({id: id}, target).then(response => this.back())
+          this.$resource('/api/books{/id}').update({id: id}, this.target).then(response => this.back())
         } else {
           this.$http.post('/api/books', this.target).then(response => this.back())
         }

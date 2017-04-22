@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="box">
+    <div class="box" v-if="target">
       <div class="box-header">
         <div class="box-title">Order Info</div>
       </div>
@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="box">
+    <div class="box" v-if="user">
       <div class="box-header">
         <div class="box-title">User info</div>
       </div>
@@ -33,12 +33,11 @@
             <td>Unit Price</td>
             <td>Quantity</td>
             <td>Amount</td>
-            <td></td>
           </tr>
           </thead>
           <tbody>
           <tr class="table-fade" v-for="entry in orderEntries">
-            <td>{{entry.book.name}}</td>
+            <td><router-link :to="'/books/'+entry.book.id">{{entry.book.name}}</router-link></td>
             <td>{{entry.unitPrice | currency}}</td>
             <td>{{entry.quantity}}</td>
             <td>{{ (entry.unitPrice * entry.quantity) | currency}}</td>
