@@ -1,7 +1,7 @@
 <template>
 
   <div class="box">
-    <div class="box-header col-md-12">
+    <div  v-if="!bookSource" class="box-header col-md-12">
       <router-link to="/books/new" class="btn btn-sm btn-success">New</router-link>
     </div>
     <!-- /.box-header -->
@@ -59,6 +59,16 @@
         }
       };
     },
+    computed: {
+      bookUrl() {
+        return this.bookSource ? this.bookSource : '/api/books'
+      }
+    },
+    props: {
+      bookSource: {
+        type: String
+      }
+    },
     methods: {
       loadData()
       {
@@ -67,7 +77,7 @@
           page: this.pagination.current_page,
         }
 
-        const resource = this.$resource('/api/books{/id}', params);
+        const resource = this.$resource(this.bookUrl, params);
         resource.get().then(response => {
           this.items = response.data.content;
           this.pagination.total = response.data.page.totalPages;
@@ -80,7 +90,7 @@
         this.$resource('/api/books{/id}').delete({id: item.id}).then(response => {
           this.items.splice(this.items.indexOf(item), 1);
         }, err => {
-          console.log(err)
+          window.alert("Broken foreign key constraint")
         });
       }
     },

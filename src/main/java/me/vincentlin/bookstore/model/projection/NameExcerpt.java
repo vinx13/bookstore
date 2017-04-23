@@ -10,6 +10,7 @@ import org.springframework.data.rest.core.config.Projection;
  */
 @Projection(types = {Genre.class, Book.class, Author.class})
 public interface NameExcerpt {
+    Long getId();
     String getName();
 }
 

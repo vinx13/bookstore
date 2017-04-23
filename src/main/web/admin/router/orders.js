@@ -11,7 +11,7 @@ export default {
       component: OrderList
     },
     {
-      path: ':id',
+      path: 'detail/:id',
       component: OrderDetail
     }
   ]

@@ -1,25 +1,27 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
+
   <div class="box">
+    <div class="box-header col-md-12">
+      <router-link to="/genres/new" class="btn btn-sm btn-success">New</router-link>
+    </div>
     <!-- /.box-header -->
 
     <div class="box-body">
       <table class="table table-filter table-bordered table-hover">
         <thead>
         <tr>
-          <td>ID</td>
           <td>Name</td>
-          <td>Email</td>
           <td></td>
-        </tr>
+          </tr>
         </thead>
         <tbody>
         <tr class="table-fade" v-for="item in items">
-          <td>{{item.id}}</td>
-          <td>{{item.username}}</td>
-          <td>{{item.email}}</td>
+          <td>{{item.name}}</td>
           <td>
-            <router-link :to="'/users/' + item.id" class="btn btn-sm btn-info">Edit</router-link>
-            <a v-on:click="deleteItem(item)" class="btn btn-sm btn-danger">Delete</a></td>
+            <router-link :to="'/genres/' + item.id" class="btn btn-sm btn-info">Edit</router-link>
+            <router-link :to="'/authors/detail/'+item.id"class="btn btn-sm btn-success">Detail</router-link>
+            <a v-on:click="deleteItem(item)" class="btn btn-sm btn-danger">Delete</a>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -28,13 +30,14 @@
       <pagination :pagination="pagination" :callback="loadData"></pagination>
     </div>
   </div>
+
 </template>
+
 <script>
-  import UserEdit from './UserEdit.vue'
   import Pagination from '../Pagination.vue'
 
   export default{
-    name: 'UserList',
+    name: 'GenreList',
     mounted() {
       this.loadData();
     },
@@ -57,7 +60,7 @@
           page: this.pagination.current_page,
         }
 
-        const resource = this.$resource('/api/users{/id}', params);
+        const resource = this.$resource('/api/genres{/id}', params);
         resource.get().then(response => {
           this.items = response.data.content;
           this.pagination.total = response.data.page.totalPages;
@@ -67,7 +70,7 @@
       },
       deleteItem(item)
       {
-        this.$resource('/api/users{/id}').delete({id: item.id}).then(response => {
+        this.$resource('/api/genres{/id}').delete({id: item.id}).then(response => {
           this.items.splice(this.items.indexOf(item), 1);
         }, err => {
           window.alert("Broken foreign key constraint")
@@ -79,3 +82,6 @@
     }
   }
 </script>
+<style>
+
+</style>

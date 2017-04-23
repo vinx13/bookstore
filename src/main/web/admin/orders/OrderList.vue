@@ -1,8 +1,5 @@
 <template>
   <div class="box">
-    <div class="box-header col-md-12">
-      <router-link to="/books/new" class="btn btn-sm btn-success">New</router-link>
-    </div>
     <!-- /.box-header -->
 
     <div class="box-body">
@@ -19,7 +16,7 @@
           <td>{{item.id}}</td>
           <td>{{item.user.username}}</td>
           <td>
-            <router-link :to="'/orders/' + item.id" class="btn btn-sm btn-info">Detail</router-link>
+            <router-link :to="'/orders/detail/' + item.id" class="btn btn-sm btn-success">Detail</router-link>
             <a v-on:click="deleteItem(item)" class="btn btn-sm btn-danger">Delete</a>
           </td>
         </tr>
@@ -71,7 +68,7 @@
         this.$resource('/api/orders{/id}').delete({id: item.id}).then(response => {
           this.items.splice(this.items.indexOf(item), 1);
         }, err => {
-          console.log(err)
+          window.alert("Broken foreign key constraint")
         });
       }
     },

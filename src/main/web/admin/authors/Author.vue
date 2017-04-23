@@ -78,6 +78,14 @@
           this.$resource('/api/orders{/id}/user').get({id: id}).then(response => {
             this.user = response.data
           })
+      },
+      submit() {
+        const id = this.itemId
+        if (id) {
+          $http.$resource('/api/orders{/id}').put({id: id}, target).then(response => this.back())
+        } else {
+          this.$http.post('/api/orders', this.target).then(response => this.back())
+        }
       }
     },
     filters: {
