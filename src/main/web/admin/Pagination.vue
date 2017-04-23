@@ -31,7 +31,13 @@
 <script>
   export default {
     name: 'Pagination',
-
+    data(){
+      return {
+        config: {
+          offset: 3
+        }
+      }
+    },
     props: {
       pagination: {
         type: Object,
@@ -40,12 +46,6 @@
       callback: {
         type: Function,
         required: true
-      },
-      options: {
-        type: Object
-      },
-      size: {
-        type: String
       }
     },
     computed: {
@@ -71,9 +71,6 @@
       config () {
         return Object.assign({
           offset: 3,
-          previousText: '«',
-          nextText: '»',
-          alwaysShowPrevNext: false
         }, this.options);
       }
     },
@@ -86,10 +83,10 @@
     },
     methods: {
       showPrevious () {
-        return this.config.alwaysShowPrevNext || this.pagination.current_page > 1;
+        return this.pagination.current_page > 1;
       },
       showNext () {
-        return this.config.alwaysShowPrevNext || this.pagination.current_page < this.pagination.last_page;
+        return this.pagination.current_page < this.pagination.last_page;
       },
       changePage (page) {
         if (this.pagination.current_page === page) {

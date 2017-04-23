@@ -27,8 +27,7 @@
       </table>
     </div>
     <div class="box-footer">
-      <pagination :pagination="pagination" :callback="loadData"
-                  :options="paginationOptions"></pagination>
+      <pagination :pagination="pagination" :callback="loadData"></pagination>
     </div>
   </div>
 </template>
@@ -49,12 +48,6 @@
           per_page: 15,    // required
           current_page: 0, // required
           last_page: 0,    // required
-        },
-        paginationOptions: {
-          offset: 4,
-          previousText: 'Prev',
-          nextText: 'Next',
-          alwaysShowPrevNext: true
         }
       }
     },
