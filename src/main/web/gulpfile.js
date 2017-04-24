@@ -104,9 +104,8 @@ gulp.task('write-property', ['admin-style', 'admin-script', 'store-style', 'stor
 // Font task
 gulp.task('fonts', ['clean'], function () {
   assets.fonts.forEach(function (item) {
-    gulp.src(item)
-      .pipe(gulp.dest('../resources/static/fonts'))
-
+    gulp.src(item.src)
+      .pipe(gulp.dest('../resources/static/' + item.dest))
   });
 });
 

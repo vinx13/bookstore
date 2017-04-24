@@ -1,29 +1,42 @@
 {
   "admin": {
-    "styles":[
+    "styles": [
       "node_modules/bootstrap/dist/css/bootstrap.css",
       "node_modules/admin-lte/dist/css/AdminLTE.css",
       "node_modules/admin-lte/dist/css/skins/skin-blue.css",
-      "node_modules/font-awesome/css/font-awesome.css"
+      "node_modules/font-awesome/css/font-awesome.css",
+      "node_modules/summernote/dist/summernote.css"
     ],
-    "scripts":[
+    "scripts": [
       "node_modules/jquery/dist/jquery.js",
       "node_modules/bootstrap/dist/js/bootstrap.js",
-      "node_modules/admin-lte/dist/js/app.js"
+      "node_modules/admin-lte/dist/js/app.js",
+      "node_modules/summernote/dist/summernote.js"
     ]
   },
   "store": {
-    "styles":[
+    "styles": [
       "node_modules/material-design-lite/dist/material.blue-pink.min.css",
       "node_modules/font-awesome/css/font-awesome.css"
     ],
-    "scripts":[
+    "scripts": [
       "node_modules/jquery/dist/jquery.js",
       "node_modules/material-design-lite/dist/material.js"
     ]
   },
-  "fonts":[
-    "node_modules/bootstrap/dist/fonts/*.*",
-    "node_modules/font-awesome/fonts/*.*"
+  "fonts": [
+    {
+      "dest": "fonts",
+      "src": [
+        "node_modules/bootstrap/dist/fonts/*.*",
+        "node_modules/font-awesome/fonts/*.*"
+      ]
+    },
+    {
+      "dest": "styles/font",
+      "src": [
+        "node_modules/summernote/dist/font/*.*"
+      ]
+    }
   ]
 }

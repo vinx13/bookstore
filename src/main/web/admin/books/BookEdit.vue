@@ -8,14 +8,7 @@
             <input type="text" class="form-control" id="inputName" placeholder="Name" v-model="target.name">
           </div>
         </div>
-        <div class="form-group">
-          <label for="inputDescription" class="col-sm-2 control-label">Description</label>
-          <div class="col-sm-10">
-                <textarea type="text" class="form-control" id="inputDescription" v-model="target.description"
-                          placeholder="Description">
-                </textarea>
-          </div>
-        </div>
+
         <div class="form-group">
           <label for="inputISBN" class="col-sm-2 control-label">ISBN</label>
           <div class="col-sm-10">
@@ -25,7 +18,8 @@
         <div class="form-group">
           <label for="inputPrice" class="col-sm-2 control-label">Price</label>
           <div class="col-sm-10">
-            <input type="number" step="0.01" class="form-control" id="inputPrice" v-model="target.price" placeholder="Price">
+            <input type="number" step="0.01" class="form-control" id="inputPrice" v-model="target.price"
+                   placeholder="Price">
           </div>
         </div>
         <div class="form-group">
@@ -46,6 +40,9 @@
             <img :src="target.image">
           </div>
         </div>
+
+        <div id="summernote">Hello Summernote</div>
+
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
             <button class="btn btn-sm btn-success" v-on:click="submit()">Submit</button>
@@ -69,6 +66,11 @@
     created () {
       this.fetchData()
     },
+    mounted() {
+      $(function(){
+        $('#summernote').summernote();
+      })
+    },
     watch: {
       '$route': 'fetchData'
     },
@@ -81,10 +83,13 @@
         if (id)
           this.$resource('/api/books{/id}').get({id: id}).then(response => {
             this.target = response.data
+            $('#summernote').summernote('code', this.target.description)
           })
       },
       submit() {
         const id = this.itemId
+        const markupStr = $('#summernote').summernote('code');
+        this.target.description = markupStr
         if (id) {
           this.$resource('/api/books{/id}').update({id: id}, this.target).then(response => this.back())
         } else {

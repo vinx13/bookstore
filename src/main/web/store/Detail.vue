@@ -25,21 +25,19 @@
             <b>Genre</b>{{meta.genre.name}}
           </span>
         </li>
-
         <li class="mdl-list__item ">
           <span class="mdl-list__item-primary-content">
-            <b>Description</b>{{item.description}}
           </span>
         </li>
       </ul>
-
     </div>
+
+    <div class="mdl-grid mdl-grid--no-fullwidth" v-html="item.description">
+    </div>
+
     <div class="mdl-grid mdl-grid--no-fullwidth">
       <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="addToCart">
         Add to Cart
-
-
-
       </button>
     </div>
   </main>

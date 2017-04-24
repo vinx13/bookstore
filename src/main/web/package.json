@@ -46,6 +46,7 @@
     "node-sass": "^4.5.0",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.13.2",
+    "summernote": "^0.8.3",
     "url-loader": "^0.5.8",
     "vue-loader": "^11.1.4",
     "vue-resource": "^1.2.1",
