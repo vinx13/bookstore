@@ -1,7 +1,7 @@
 <template>
 
   <div class="box">
-    <div  v-if="!bookSource" class="box-header col-md-12">
+    <div v-if="!bookSource" class="box-header col-md-12">
       <router-link to="/books/new" class="btn btn-sm btn-success">New</router-link>
     </div>
     <!-- /.box-header -->
@@ -11,7 +11,6 @@
         <thead>
         <tr>
           <td>Book Name</td>
-          <td>Description</td>
           <td>ISBN</td>
           <td>Price</td>
           <td>Inventory</td>
@@ -21,7 +20,6 @@
         <tbody>
         <tr class="table-fade" v-for="item in items">
           <td>{{item.name}}</td>
-          <td>{{item.description}}</td>
           <td>{{item.isbn}}</td>
           <td>{{item.price}}</td>
           <td>{{item.inventory}}</td>
@@ -100,5 +98,9 @@
   }
 </script>
 <style>
-
+  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 </style>

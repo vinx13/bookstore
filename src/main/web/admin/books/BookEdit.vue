@@ -30,9 +30,15 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="inputImage" class="col-sm-2 control-label">Image Link</label>
+          <label for="inputImage" class="col-sm-2 control-label">Image </label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="inputImage" v-model="target.image" placeholder="Image">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputFile" class="col-sm-2 control-label">Choose file</label>
+          <div class="col-sm-10">
+            <input id="inputFile" type="file" @change="uploadFile($event)">
           </div>
         </div>
         <div class="form-group" v-if="target.image">
@@ -67,8 +73,32 @@
       this.fetchData()
     },
     mounted() {
-      $(function(){
-        $('#summernote').summernote();
+      $(function () {
+        $('#summernote').summernote({
+          callbacks: {
+            onImageUpload: function (files) {
+              // upload image to server and create imgNode...
+              var form = new FormData()
+              form.append('file', files[0])
+
+              $.ajax({
+                url: '/files',
+                data: form,
+                method:'POST',
+                success: response => {
+                  console.log(response)
+                  const node = document.createElement('img');
+                  const link = '/files/' + response.link
+                  node.setAttribute('src', link)
+                  $('#summernote').summernote('insertNode', node);
+                },
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false
+              })
+            }
+          }
+        })
       })
     },
     watch: {
@@ -95,6 +125,25 @@
         } else {
           this.$http.post('/api/books', this.target).then(response => this.back())
         }
+      },
+      uploadFile(event) {
+        var form = new FormData()
+        form.append('file', event.target.files[0])
+
+        $.ajax({
+          url: '/files',
+          data: form,
+          method:'POST',
+          success: response => {
+            const node = document.createElement('img');
+            const link = '/files/' + response.link
+            console.log(link)
+            this.target.image = link
+          },
+          contentType: false,
+          enctype: 'multipart/form-data',
+          processData: false
+        })
       }
     },
     computed: {
