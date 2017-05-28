@@ -36,6 +36,9 @@ dependencies {
     //compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
     compile 'com.h2database:h2'
 
+    // MongoDB
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
     // dev tool
     compile 'org.springframework.boot:spring-boot-devtools'
 
