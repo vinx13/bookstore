@@ -1,0 +1,96 @@
+<template>
+  <main v-if="item" class="mdl-layout__content">
+    <div class="mdl-grid mdl-grid--no-fullwidth">
+      <div>Order ID: {{item.id}}</div>
+
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+        <thead>
+        <tr>
+          <td>Book</td>
+          <td>Quantity</td>
+          <td>Unit price</td>
+          <td>Amount</td>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr class="mdl-list__item" v-for="entry in orderEntries">
+          <td>
+            {{entry.book.name}}
+          </td>
+
+          <td>{{entry.quantity}}</td>
+          <td>{{entry.unitPrice | currency}}</td>
+          <td>{{ (entry.unitPrice * entry.quantity) | currency}}</td>
+        </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+    <div class="mdl-grid mdl-grid--no-fullwidth" v-if="item && item.status=='UnPaid'">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="pay">
+        Pay Now
+      </button>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="cancel">
+        Cancel Order
+      </button>
+    </div>
+  </main>
+</template>
+<script>
+  export default{
+    name: 'Order',
+    data() {
+      return {
+        item: null
+      }
+    },
+    created () {
+      this.loadData()
+    },
+    watch: {
+      '$route': 'loadData'
+    },
+    methods: {
+      loadData() {
+        console.log('id:' + this.itemId)
+        this.$resource('/api/orders{/id}').get({id: this.itemId}).then(response => {
+          console.log(response)
+          this.item = response.data
+        })
+      },
+      pay() {
+        this.$resource('/api/orders{/id}/pay').post({id: this.itemId}).then(response => {
+          loadData()
+        })
+      },
+      cancel(){
+        this.$resource('/api/orders{/id}/cancel').post({id: this.itemId}).then(response => {
+          loadData()
+        })
+      }
+    },
+    computed: {
+      itemId(){
+        const params = this.$route.params
+        return params ? params.id : null
+      },
+      orderEntries() {
+        return this.item ? this.item.content[0].value : null
+      }
+
+    }
+  }
+</script>
+<style scoped>
+  b:after {
+    content: "\00a0";
+  }
+
+  .mdl-typography--headline {
+    margin: 20px
+  }
+</style>

@@ -7,6 +7,7 @@
       <div class="box-body">
         <div>Order Id: {{itemId}}</div>
         <div>Date: {{target.createdAt | dateFilter}}</div>
+        <div>Status: {{target.status}}</div>
       </div>
     </div>
 

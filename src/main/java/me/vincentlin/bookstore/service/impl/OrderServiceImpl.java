@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +36,12 @@ public class OrderServiceImpl implements OrderService {
             OrderEntry entry = new OrderEntry();
             entry.setBook(item.getBook());
             entry.setQuantity(item.getQuantity());
-            Double price = item.getBook().getPrice();
+            BigDecimal price = item.getBook().getPrice();
             entry.setUnitPrice(price);
             entry.setOrder(order);
             entries.add(entry);
         }
+        order.setStatus(Order.OrderStatus.UnPaid);
         order.setEntries(entries);
         order.setUser(user);
         orderRepository.save(order);
