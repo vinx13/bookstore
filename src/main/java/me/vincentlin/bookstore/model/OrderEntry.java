@@ -1,6 +1,9 @@
 package me.vincentlin.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * Created by Vincent on 2017/3/25.
@@ -18,9 +21,10 @@ public class OrderEntry {
     private Book book;
 
     @Column(columnDefinition = "DECIMAL(6,2)")
-    private Double unitPrice;
+    private BigDecimal unitPrice;
     private Long quantity;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private Order order;
@@ -41,11 +45,11 @@ public class OrderEntry {
         this.book = book;
     }
 
-    public Double getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Double unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 

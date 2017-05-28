@@ -5,12 +5,20 @@ import me.vincentlin.bookstore.dao.*;
 import me.vincentlin.bookstore.model.*;
 import me.vincentlin.bookstore.service.CartService;
 import me.vincentlin.bookstore.service.OrderService;
+import me.vincentlin.bookstore.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -49,9 +57,10 @@ public class SeederRunner implements ApplicationRunner {
         seedUsers(20);
         seedAuthors(15);
         seedGenres(5);
-        seedBooks(500);
+        seedBooks(50);
         seedOrders(20);
         seedCart();
+        storeFileToGridFs();
     }
 
     private void seedCart() {
@@ -124,7 +133,7 @@ public class SeederRunner implements ApplicationRunner {
             book.setIsbn(faker.number().digits(13));
             book.setAuthors(randomElements(authors, 2));
             book.setInventory(faker.number().randomNumber());
-            book.setPrice(faker.number().randomDouble(2, 10, 100));
+            book.setPrice(new BigDecimal(faker.number().randomDouble(2, 10, 100)));
             book.setImage("http://lorempixel.com/200/400");
             book.setDescription(faker.shakespeare().kingRichardIIIQuote());
             books.add(book);
@@ -162,5 +171,23 @@ public class SeederRunner implements ApplicationRunner {
             subset.add(elements.get(index));
         }
         return subset;
+    }
+
+    @Autowired
+    GridFsOperations operations;
+
+    public void storeFileToGridFs() {
+        // populate metadata
+        Resource file = new FileSystemResource("readme.md");
+        // lookup File or Resource
+        try {
+            operations.store(file.getInputStream(), "filename.txt");
+            Resource resource = operations.getResource("filename.txt");
+            InputStream stream = resource.getInputStream();
+            InputStreamReader reader = new InputStreamReader(stream);
+            int i= reader.read();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -21,11 +22,12 @@ public class Book {
     private Long id;
     private String name;
     private String isbn;
+    @Column(columnDefinition = "VARCHAR(1024000)")
     private String description;
     private String image;
     private Long inventory;
     @Column(columnDefinition = "DECIMAL(6,2)")
-    private Double price;
+    private BigDecimal price;
     @ManyToMany
     private List<Author> authors = new ArrayList<>();
 
@@ -88,11 +90,11 @@ public class Book {
         this.inventory = inventory;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

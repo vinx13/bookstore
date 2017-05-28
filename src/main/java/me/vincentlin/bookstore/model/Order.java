@@ -12,6 +12,8 @@ import java.util.List;
 @Entity
 @Table(name = "\"Order\"")
 public class Order {
+    public enum OrderStatus {Completed, Canceled, UnPaid, Paid};
+
     @Id
     @GeneratedValue
     private Long id;
@@ -25,6 +27,8 @@ public class Order {
 
     @CreationTimestamp
     private Date createdAt;
+
+    private OrderStatus status;
 
     public Long getId() {
         return id;
@@ -58,4 +62,11 @@ public class Order {
         this.createdAt = createdAt;
     }
 
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 }
