@@ -65,9 +65,6 @@
       this.loadUserData()
       this.$refs.toast.setOptions({position: 'top right'})
     },
-    updated(){
-      componentHandler.upgradeAllRegistered();
-    },
     methods: {
       loadUserData() {
         this.$http.get('/api/user').then(response => {

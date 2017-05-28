@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <pagination :pagination="pagination" :callback="loadData"></pagination>
+    <pagination v-if="pagination" :pagination="pagination" :callback="loadData"></pagination>
 
     <site-footer></site-footer>
   </main>
@@ -38,12 +38,20 @@
         cartItems: []
       }
     },
-    computed: mapState(['isLogin']),
     components: {
-      Card, Pagination,SiteFooter
+      Card, Pagination, SiteFooter
     },
     mounted(){
       this.loadData()
+    },
+    computed: {
+      bookUrl() {
+        const bookName = this.$route.query.name
+        if (bookName && bookName != '')
+          return '/api/books/search/findByNameStartsWith?name=' + bookName
+        return '/api/books'
+      },
+      ...mapState(['isLogin'])
     },
     methods: {
       loadData(){
@@ -52,18 +60,25 @@
           page: this.pagination.current_page,
         }
 
-        this.$resource('/api/books{/id}', params).get()
+        this.$resource(this.bookUrl, params).get()
           .then(response => {
             this.items = response.data.content;
-            this.pagination.total = response.data.page.totalPages;
-            this.pagination.per_page = response.data.page.size;
-            this.pagination.last_page = response.data.page.totalPages - 1;
+            if (response.data.page) {
+              this.pagination.total = response.data.page.totalPages;
+              this.pagination.per_page = response.data.page.size;
+              this.pagination.last_page = response.data.page.totalPages - 1;
+            } else {
+              this.pagination = null
+            }
           });
       },
       addToCart(book){
         this.$emit('addToCart', book)
       }
-    }
+    },
+    watch: {
+      '$route': 'loadData'
+    },
   }
 
 </script>

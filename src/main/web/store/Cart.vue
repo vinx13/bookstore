@@ -90,7 +90,8 @@
       },
       checkout(){
         this.$http.post('/api/checkout').then(response=>{
-          window.location.reload()
+          this.$router.push('/order/' + response.data.id)
+          this.$store.commit('updateCart', {})
         })
 
       }

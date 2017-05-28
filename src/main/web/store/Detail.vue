@@ -32,7 +32,7 @@
       </ul>
     </div>
 
-    <div class="mdl-grid mdl-grid--no-fullwidth" v-html="item.description">
+    <div class="mdl-grid mdl-grid--no-fullwidth" style="display: block" v-html="item.description">
     </div>
 
     <div class="mdl-grid mdl-grid--no-fullwidth">

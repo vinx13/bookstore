@@ -10,8 +10,8 @@
           <i class="material-icons">search</i>
         </label>
         <div class="mdl-textfield__expandable-holder">
-          <input class="mdl-textfield__input" type="text" name="sample"
-                 id="waterfall-exp">
+          <input class="mdl-textfield__input" type="text"
+                 id="waterfall-exp" v-model="searchText" input v-on:keyup.enter="search">
         </div>
       </div>
     </div>
@@ -29,7 +29,17 @@
 
 <script>
   export default {
-    name: 'NavBar'
+    name: 'NavBar',
+    data() {
+      return {
+        searchText:''
+      }
+    },
+    methods:{
+      search(){
+        this.$router.push({ path: '/', query: { name: this.searchText }})
+      }
+    }
   }
 </script>
 
