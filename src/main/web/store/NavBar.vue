@@ -37,6 +37,7 @@
     },
     methods:{
       search(){
+        console.log(this.searchText)
         this.$router.push({ path: '/', query: { name: this.searchText }})
       }
     }
