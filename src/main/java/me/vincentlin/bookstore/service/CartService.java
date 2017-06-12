@@ -9,6 +9,7 @@ import me.vincentlin.bookstore.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -28,4 +29,14 @@ public interface CartService {
     void removeAll(User user);
 
     List<CartItem> findByUser(User user);
+
+    List<CartItem> findByUser(Principal principal);
+
+    void addOne(Principal principal, Long bookId);
+
+    List<CartItem> getItems(Principal principal);
+
+    void setItem(Principal principal, Long bookId, Long quantity);
+
+    void removeOne(Principal principal, Long bookId);
 }

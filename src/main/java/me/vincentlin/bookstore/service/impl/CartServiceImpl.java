@@ -1,13 +1,18 @@
 package me.vincentlin.bookstore.service.impl;
 
+import me.vincentlin.bookstore.dao.BookRepository;
 import me.vincentlin.bookstore.dao.CartRepository;
+import me.vincentlin.bookstore.dao.UserRepository;
 import me.vincentlin.bookstore.model.Book;
 import me.vincentlin.bookstore.model.CartItem;
 import me.vincentlin.bookstore.model.User;
 import me.vincentlin.bookstore.service.CartService;
+import me.vincentlin.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -17,7 +22,10 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
     @Autowired
     CartRepository cartRepository;
-
+    @Autowired
+    UserService userService;
+    @Autowired
+    BookRepository bookRepository;
 
     @Override
     public List<CartItem> getItems(User user) {
@@ -75,5 +83,47 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<CartItem> findByUser(User user) {
         return cartRepository.findByUserId(user.getId());
+    }
+
+    @Override
+    public List<CartItem> findByUser(Principal principal) {
+        User user = userService.find(principal);
+        return findByUser(user);
+    }
+
+    @Override
+    public void addOne(Principal principal, Long bookId) {
+        User user = userService.find(principal);
+        Book book = bookRepository.findOne(bookId);
+        if (book == null || user == null) {
+            throw new ResourceNotFoundException();
+        }
+        addOne(user, book);
+    }
+
+    @Override
+    public List<CartItem> getItems(Principal principal) {
+        User user = userService.find(principal);
+        return getItems(user);
+    }
+
+    @Override
+    public void setItem(Principal principal, Long bookId, Long quantity) {
+        User user = userService.find(principal);
+        Book book = bookRepository.findOne(bookId);
+        if (book == null || user == null) {
+            throw new ResourceNotFoundException();
+        }
+        setItem(user, book, quantity);
+    }
+
+    @Override
+    public void removeOne(Principal principal, Long bookId) {
+        User user = userService.find(principal);
+        Book book = bookRepository.findOne(bookId);
+        if (book == null || user == null) {
+            throw new ResourceNotFoundException();
+        }
+        removeOne(user, book);
     }
 }

@@ -1,6 +1,6 @@
 package me.vincentlin.bookstore.controller;
 
-import me.vincentlin.bookstore.dao.UserRepository;
+import me.vincentlin.bookstore.common.Utils;
 import me.vincentlin.bookstore.model.CartItem;
 import me.vincentlin.bookstore.model.Order;
 import me.vincentlin.bookstore.model.User;
@@ -23,21 +23,18 @@ public class OrderController {
     @Autowired
     private CartService cartService;
     @Autowired
-    private UserRepository userRepository;
+    Utils utils;
+
+    public OrderController() {
+    }
 
     @PostMapping("/api/checkout")
     public Order newOrder(Principal principal) {
-        User user=getCurrentUser(principal);
+        User user = utils.getCurrentUser(principal);
         List<CartItem> items = cartService.getItems(user);
         Order order = orderService.checkout(user, items);
         cartService.removeAll(user);
         return order;
     }
 
-    private User getCurrentUser(Principal principal) {
-        if (principal == null) return null;
-        String username = principal.getName();
-        User user = userRepository.findByUsername(username);
-        return user;
-    }
 }
