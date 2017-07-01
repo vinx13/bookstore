@@ -31,10 +31,12 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-security'
 
     // JPA
+    //compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
+    compile 'mysql:mysql-connector-java'
     //compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
-    compile 'com.h2database:h2'
+    //compile 'com.h2database:h2'
 
     // MongoDB
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
@@ -59,6 +61,8 @@ dependencies {
     compile group: 'com.github.javafaker', name: 'javafaker', version: '0.13'
 
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+
+    compile 'org.jetbrains:annotations:15.0'
 }
 
 idea {
