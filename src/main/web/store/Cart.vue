@@ -91,7 +91,7 @@
       checkout(){
         this.$http.post('/api/checkout').then(response=>{
           this.$router.push('/order/' + response.data.id)
-          this.$store.commit('updateCart', {})
+          this.$store.commit('updateCart', [])
         })
 
       }

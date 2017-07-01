@@ -2,6 +2,7 @@ import VueRouter from 'vue-router'
 import List from './List.vue'
 import Detail from './Detail.vue'
 import Order from './Order.vue'
+import Profile from './Profile.vue'
 
 const routes = [
   {
@@ -15,6 +16,10 @@ const routes = [
   {
     path: '/order/:id',
     component: Order
+  },
+  {
+    path: '/profile',
+    component: Profile
   }
 ]
 const router = new VueRouter({routes})

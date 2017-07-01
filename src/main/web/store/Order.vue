@@ -2,21 +2,23 @@
   <main v-if="item" class="mdl-layout__content">
     <div class="mdl-grid mdl-grid--no-fullwidth">
       <div>Order ID: {{item.id}}</div>
-
+      <div>Status: {{item.status}}</div>
+    </div>
+    <div class="mdl-grid mdl-grid--no-fullwidth">
       <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
         <thead>
         <tr>
-          <td>Book</td>
-          <td>Quantity</td>
-          <td>Unit price</td>
-          <td>Amount</td>
+          <th class="mdl-data-table__cell--non-numeric">Book</th>
+          <th>Quantity</th>
+          <th>Unit price</th>
+          <th>Amount</th>
         </tr>
         </thead>
 
         <tbody>
 
         <tr class="mdl-list__item" v-for="entry in orderEntries">
-          <td>
+          <td  class="mdl-data-table__cell--non-numeric">
             {{entry.book.name}}
           </td>
 
@@ -63,12 +65,12 @@
         })
       },
       pay() {
-        this.$resource('/api/orders{/id}/pay').post({id: this.itemId}).then(response => {
+        this.$http.post('/api/checkout/' + this.itemId + '/pay').then(response => {
           loadData()
         })
       },
       cancel(){
-        this.$resource('/api/orders{/id}/cancel').post({id: this.itemId}).then(response => {
+        this.$http.post('/api/checkout/' + this.itemId + '/cancel').then(response => {
           loadData()
         })
       }

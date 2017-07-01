@@ -18,14 +18,15 @@
 <script>
   export default {
     'name': 'SideBar',
-    data () {
+    data() {
       return {
         'items': [
           {'name': 'Books', 'icon': 'fa-book', 'link': '/books'},
           {'name': 'Users', 'icon': 'fa-user', 'link': '/users'},
           {'name': 'Orders', 'icon': 'fa-archive', 'link': '/orders'},
           {'name': 'Genres', 'icon': 'fa-building-o', 'link': '/genres'},
-          {'name': 'Authors', 'icon': 'fa-user-o', 'link': '/authors'}
+          {'name': 'Authors', 'icon': 'fa-user-o', 'link': '/authors'},
+          {'name': 'Statictics', 'icon': 'fa-leaf', 'link': '/stat'}
         ]
       }
     }
