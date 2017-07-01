@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Component
+//@Component
 public class SeederRunner implements ApplicationRunner {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -54,11 +54,11 @@ public class SeederRunner implements ApplicationRunner {
 
     public void run(ApplicationArguments args) {
         seedRoles();
-        seedUsers(20);
+        seedUsers(300);
         seedAuthors(15);
-        seedGenres(5);
-        seedBooks(50);
-        seedOrders(20);
+        seedGenres(10);
+        seedBooks(500);
+        seedOrders(2000);
         seedCart();
         storeFileToGridFs();
     }
