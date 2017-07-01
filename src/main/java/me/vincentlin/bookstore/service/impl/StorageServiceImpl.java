@@ -2,7 +2,7 @@ package me.vincentlin.bookstore.service.impl;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
-import me.vincentlin.bookstore.StorageException;
+import me.vincentlin.bookstore.common.StorageException;
 import me.vincentlin.bookstore.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
