@@ -7,6 +7,8 @@ import me.vincentlin.bookstore.model.User;
 import me.vincentlin.bookstore.service.CartService;
 import me.vincentlin.bookstore.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,5 +38,18 @@ public class OrderController {
         cartService.removeAll(user);
         return order;
     }
+
+    @PostMapping("/api/checkout/{id}/pay")
+    public ResponseEntity<?> payOrder(Principal principal, @PathVariable("id") Long orderId) {
+        orderService.pay(principal, orderId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/api/checkout/{id}/cancel")
+    public ResponseEntity<?> cancelOrder(Principal principal, @PathVariable("id") Long orderId) {
+        orderService.cancel(principal, orderId);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
