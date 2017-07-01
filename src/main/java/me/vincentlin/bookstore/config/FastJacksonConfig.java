@@ -1,4 +1,4 @@
-package me.vincentlin.bookstore;
+package me.vincentlin.bookstore.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.MapperFeature;

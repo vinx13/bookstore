@@ -1,4 +1,4 @@
-package me.vincentlin.bookstore;
+package me.vincentlin.bookstore.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;

@@ -1,6 +1,5 @@
-package me.vincentlin.bookstore;
+package me.vincentlin.bookstore.config;
 
-import me.vincentlin.bookstore.AssetProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;

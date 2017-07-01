@@ -1,4 +1,4 @@
-package me.vincentlin.bookstore;
+package me.vincentlin.bookstore.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
