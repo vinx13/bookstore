@@ -22,7 +22,7 @@ public class Book {
     private Long id;
     private String name;
     private String isbn;
-    @Column(columnDefinition = "VARCHAR(1024000)")
+    @Column(columnDefinition = "TEXT")
     private String description;
     private String image;
     private Long inventory;

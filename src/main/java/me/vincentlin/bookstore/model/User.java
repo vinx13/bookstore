@@ -86,6 +86,7 @@ public class User {
         role.getUsers().add(this);
     }
 
+    @JsonIgnore
     public List<Order> getOrders() {
         return orders;
     }
