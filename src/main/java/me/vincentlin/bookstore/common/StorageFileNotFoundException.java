@@ -1,4 +1,4 @@
-package me.vincentlin.bookstore;
+package me.vincentlin.bookstore.common;
 
 public class StorageFileNotFoundException extends StorageException {
 
