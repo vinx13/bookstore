@@ -18,6 +18,7 @@
           <td>
             <router-link :to="'/orders/detail/' + item.id" class="btn btn-sm btn-success">Detail</router-link>
             <a v-on:click="deleteItem(item)" class="btn btn-sm btn-danger">Delete</a>
+            <a v-on:click="cancelItem(item)" class="btn btn-sm btn-danger">Cancel</a>
           </td>
         </tr>
         </tbody>
@@ -70,6 +71,12 @@
         }, err => {
           window.alert("Broken foreign key constraint")
         });
+      },
+      cancelItem(item)
+      {
+        this.$resource(`/api/checkout/${item.id}/cancel`).save().then(response => {
+          window.alert("The order is cancelled")
+        })
       }
     },
     components: {

@@ -12,7 +12,7 @@
         <div class="form-group">
           <label for="inputISBN" class="col-sm-2 control-label">ISBN</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputISBN" v-model="target.isbn" placeholder="ISBN">
+            <input class="form-control" id="inputISBN" v-model="target.isbn" placeholder="ISBN">
           </div>
         </div>
         <div class="form-group">
@@ -20,6 +20,33 @@
           <div class="col-sm-10">
             <input type="number" step="0.01" class="form-control" id="inputPrice" v-model="target.price"
                    placeholder="Price">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputGenre" class="col-sm-2 control-label">Genre</label>
+          <div class="col-sm-10">
+            <v-select id="inputGenre"
+                      :debounce="250"
+                      :on-search="getGenres"
+                      :options="genres"
+                      placeholder="Search genres..."
+                      label="name"
+                      v-model="genre">
+            </v-select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputAuthors" class="col-sm-2 control-label">Authors</label>
+          <div class="col-sm-10">
+            <v-select id="inputAuthors"
+                            multiple
+                            :debounce="250"
+                            :on-search="getAuthors"
+                            :options="authors"
+                            placeholder="Search authors..."
+                            label="name"
+                            v-model="author">
+            </v-select>
           </div>
         </div>
         <div class="form-group">
@@ -62,11 +89,19 @@
 
 <script>
   import {mapState} from 'vuex'
+  import vSelect from 'vue-select'
   export default {
     name: 'BookEdit',
+    components: {
+      vSelect
+    },
     data(){
       return {
-        target: {name: '', description: '', price: '', inventory: '', image: ''}
+        target: {name: '', description: '', price: '', inventory: '', image: ''},
+        genres:[],
+        genre: null,
+        author: null,
+        authors: [],
       }
     },
     created () {
@@ -113,10 +148,13 @@
         if (id)
           this.$resource('/api/books{/id}').get({id: id}).then(response => {
             this.target = response.data
+            this.genre = response.data.content[1].value
+            this.author = response.data.content[0].value
             $('#summernote').summernote('code', this.target.description)
           })
       },
       submit() {
+        console.log(this.genre)
         const id = this.itemId
         const markupStr = $('#summernote').summernote('code');
         this.target.description = markupStr
@@ -144,6 +182,24 @@
           enctype: 'multipart/form-data',
           processData: false
         })
+      },
+      getGenres(search, loading) {
+        loading(true)
+        this.$resource('/api/genres/search/findByNameStartsWith').get({'name':search}).then(
+          response=> {
+          loading(false)
+          this.genres = response.data.content
+          }
+        )
+      },
+      getAuthors(search, loading) {
+        loading(true)
+        this.$resource('/api/authors/search/findByNameStartsWith').get({'name':search}).then(
+          response=> {
+          loading(false)
+          this.authors = response.data.content
+        }
+        )
       }
     },
     computed: {

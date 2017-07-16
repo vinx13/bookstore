@@ -102,4 +102,11 @@ public class User {
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
+
+    public boolean isAdmin() {
+        for(Role role: roles) {
+            if (role.getName().equals("ADMIN")) return true;
+        }
+        return false;
+    }
 }

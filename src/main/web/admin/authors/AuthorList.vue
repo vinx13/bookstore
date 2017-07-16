@@ -2,7 +2,7 @@
 
   <div class="box">
     <div class="box-header col-md-12">
-      <router-link to="/books/new" class="btn btn-sm btn-success">New</router-link>
+      <router-link to="/authors/new" class="btn btn-sm btn-success">New</router-link>
     </div>
     <!-- /.box-header -->
 

@@ -1,8 +1,10 @@
 package me.vincentlin.bookstore.dao;
 
+import java.util.List;
 import me.vincentlin.bookstore.model.Genre;
 import me.vincentlin.bookstore.model.projection.NameExcerpt;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
@@ -10,5 +12,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  */
 @RepositoryRestResource(excerptProjection = NameExcerpt.class)
 public interface GenreRepository extends JpaRepository<Genre, Long> {
-
+    List<Genre> findByNameStartsWith(@Param("name") String name);
 }

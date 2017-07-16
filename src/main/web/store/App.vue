@@ -83,7 +83,7 @@
       addToCart(book){
         console.log(book)
         if (!this.isLogin) {
-          this.$refs.toast.showToast('Please login', {theme: 'error', timeLife: 3000})
+          this.$refs.toast.showToast('Please login', {theme: 'error', timeLife: 30000})
         } else {
           this.$resource('/api/user/cart{/id}').get({id: book.id}).then(response => {
             this.$store.commit('updateCart', response.data)

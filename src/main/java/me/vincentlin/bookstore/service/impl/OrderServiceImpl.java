@@ -57,7 +57,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order checkout(User user, List<CartItem> items) {
-        if (items == null || items.isEmpty()) return null;
+        if (items == null || items.isEmpty())
+            return null;
 
         Order order = new Order();
         List<OrderEntry> entries = new ArrayList<>(items.size());
@@ -82,7 +83,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findByUser(Principal principal) {
         User user = userService.find(principal);
-        if (user == null) throw new UnloginedException();
+        if (user == null)
+            throw new UnloginedException();
         return findByUser(user);
     }
 
@@ -134,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
     public Order pay(Principal principal, Long orderId) {
         User user = utils.getCurrentUser(principal);
         Order order = orderRepository.findOne(orderId);
-        if(order.getUser().getId() != user.getId())
+        if (order.getUser().getId() != user.getId())
             throw new OrderPermissionException();
         return updateOrder(orderId, Order.OrderStatus.Paid);
     }
@@ -143,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
     public Order cancel(Principal principal, Long orderId) {
         User user = utils.getCurrentUser(principal);
         Order order = orderRepository.findOne(orderId);
-        if(order.getUser().getId() != user.getId())
+        if (!user.isAdmin() && order.getUser().getId() != user.getId())
             throw new OrderPermissionException();
         return updateOrder(orderId, Order.OrderStatus.Canceled);
     }
@@ -155,30 +157,33 @@ public class OrderServiceImpl implements OrderService {
 
     private Order updateOrder(Long orderId, Order.OrderStatus status) {
         Order order = orderRepository.findOne(orderId);
-        if (order == null) throw new ResourceNotFoundException();
+        if (order == null)
+            throw new ResourceNotFoundException();
         order.setStatus(status);
         orderRepository.save(order);
         return order;
     }
 
     @Override
-    public Stat findStat(@Nullable Long userId, @Nullable Long bookId, @Nullable Long genreId, @Nullable Timestamp start, @Nullable Timestamp end) {
+    public Stat findStat(@Nullable Long userId, @Nullable Long bookId, @Nullable Long genreId, @Nullable Date start,
+        @Nullable Date end) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withProcedureName("stat");
         /* IN genre_id LONG, IN user_id LONG, IN book_id LONG, IN start_date DATETIME, IN end_date DATETIME */
         jdbcCall.declareParameters(
-                new SqlParameter("genre_id", Types.BIGINT),
-                new SqlParameter("user_id", Types.BIGINT),
-                new SqlParameter("book_id", Types.BIGINT),
-                new SqlParameter("start_date", Types.DATE),
-                new SqlParameter("end_date", Types.DATE),
-                new SqlOutParameter("sales_count", Types.BIGINT),
-                new SqlOutParameter("sales_amount",Types.DECIMAL)
+            new SqlParameter("genre_id", Types.BIGINT),
+            new SqlParameter("user_id", Types.BIGINT),
+            new SqlParameter("book_id", Types.BIGINT),
+            new SqlParameter("start_date", Types.DATE),
+            new SqlParameter("end_date", Types.DATE),
+            new SqlOutParameter("sales_count", Types.BIGINT),
+            new SqlOutParameter("sales_amount", Types.DECIMAL)
         );
         Map<String, Object> out = jdbcCall.execute(genreId, userId, bookId, start, end);
-       Stat stat = new Stat();
-       stat.setSaleCount((Long)out.get("sale_count"));
-       stat.setSaleAmount((BigDecimal)out.get("sale_amount"));
-       return stat;
+        Stat stat = new Stat();
+        stat.setSaleCount(Long.valueOf((String)out.get("sale_count")));
+        BigDecimal amount = (BigDecimal)out.get("sale_amount");
+        stat.setSaleAmount(amount != null ? amount : new BigDecimal(0));
+        return stat;
 
     }
 }

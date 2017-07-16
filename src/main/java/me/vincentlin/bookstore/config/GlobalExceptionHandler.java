@@ -1,6 +1,7 @@
 package me.vincentlin.bookstore.config;
 
 
+import me.vincentlin.bookstore.common.OrderPermissionException;
 import me.vincentlin.bookstore.common.UnloginedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +16,7 @@ public class GlobalExceptionHandler {
         // Nothing to do
     }
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler(UnloginedException.class)
+    @ExceptionHandler(OrderPermissionException.class)
     public void handlePermission() {
         // Nothing to do
     }

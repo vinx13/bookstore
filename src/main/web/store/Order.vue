@@ -66,12 +66,12 @@
       },
       pay() {
         this.$http.post('/api/checkout/' + this.itemId + '/pay').then(response => {
-          loadData()
+          this.loadData()
         })
       },
       cancel(){
         this.$http.post('/api/checkout/' + this.itemId + '/cancel').then(response => {
-          loadData()
+          this.loadData()
         })
       }
     },

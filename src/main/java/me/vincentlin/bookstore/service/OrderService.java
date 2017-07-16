@@ -42,7 +42,7 @@ public interface OrderService {
 
     List<Order> findBetweenDate(Date start, Date end);
 
-    Stat findStat(@Nullable Long userId, @Nullable Long bookId, @Nullable Long genreId, @Nullable java.sql.Timestamp start, @Nullable java.sql.Timestamp end);
+    Stat findStat(@Nullable Long userId, @Nullable Long bookId, @Nullable Long genreId, @Nullable Date start, @Nullable Date end);
 
 
 
