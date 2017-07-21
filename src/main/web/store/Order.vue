@@ -60,9 +60,8 @@
       loadData() {
         console.log('id:' + this.itemId)
         this.$resource('/api/orders{/id}').get({id: this.itemId}).then(response => {
-          console.log(response)
           this.item = response.data
-        })
+        }, err => window.alert('Invalid order'))
       },
       pay() {
         this.$http.post('/api/checkout/' + this.itemId + '/pay').then(response => {

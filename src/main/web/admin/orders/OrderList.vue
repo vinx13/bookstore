@@ -17,6 +17,7 @@
           <td>{{item.user.username}}</td>
           <td>
             <router-link :to="'/orders/detail/' + item.id" class="btn btn-sm btn-success">Detail</router-link>
+            <a v-on:click="completeItem(item)" class="btn btn-sm btn-info">Complete</a>
             <a v-on:click="deleteItem(item)" class="btn btn-sm btn-danger">Delete</a>
             <a v-on:click="cancelItem(item)" class="btn btn-sm btn-danger">Cancel</a>
           </td>
@@ -33,7 +34,7 @@
 <script>
   import Pagination from '../Pagination.vue'
 
-  export default{
+  export default {
     'name': 'OrderList',
     mounted() {
       this.loadData();
@@ -50,7 +51,7 @@
       }
     },
     methods: {
-      loadData () {
+      loadData() {
         const params = {
           per_page: this.pagination.per_page,
           page: this.pagination.current_page,
@@ -64,18 +65,27 @@
           this.pagination.last_page = response.data.page.totalPages - 1;
         });
       },
-      deleteItem(item)
-      {
+      deleteItem(item) {
         this.$resource('/api/orders{/id}').delete({id: item.id}).then(response => {
           this.items.splice(this.items.indexOf(item), 1);
         }, err => {
           window.alert("Broken foreign key constraint")
         });
       },
-      cancelItem(item)
-      {
+      cancelItem(item) {
         this.$resource(`/api/checkout/${item.id}/cancel`).save().then(response => {
           window.alert("The order is cancelled")
+        }, err => this.showAlert(err))
+      },
+      completeItem(item) {
+        this.$resource(`/api/checkout/${item.id}/complete`).save().then(response => {
+          window.alert("The order is completed")
+        }, err => this.showAlert(err))
+      },
+      showAlert(err) {
+        console.log(err)
+        err.text().then(text => {
+          window.alert(`Error: ${text}`)
         })
       }
     },

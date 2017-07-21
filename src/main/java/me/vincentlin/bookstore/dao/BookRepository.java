@@ -14,4 +14,5 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByNameStartsWith(@Param("name") String name);
+    List<Book> findByNameContaining(@Param("name") String name);
 }

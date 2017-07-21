@@ -10,7 +10,7 @@ The backend is built upon Spring Framework (Boot, Data JPA, Data REST, Security,
 Session is managed by Spring Session and stored in Redis. 
 
 ## Database
-We use retaional database, such as MySQL, for primary data storage. Besides, MongoDB GridFS is utilized for storing images. Redis is used for saving session.
+We use relational database, such as MySQL, for primary data storage. Besides, MongoDB GridFS is utilized for storing images. Redis is used for saving session.
 
 ## Functionality
 * CRUD for users, books, genres, orders, authors

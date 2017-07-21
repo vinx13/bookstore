@@ -39,13 +39,13 @@
           <label for="inputAuthors" class="col-sm-2 control-label">Authors</label>
           <div class="col-sm-10">
             <v-select id="inputAuthors"
-                            multiple
-                            :debounce="250"
-                            :on-search="getAuthors"
-                            :options="authors"
-                            placeholder="Search authors..."
-                            label="name"
-                            v-model="author">
+                      multiple
+                      :debounce="250"
+                      :on-search="getAuthors"
+                      :options="authors"
+                      placeholder="Search authors..."
+                      label="name"
+                      v-model="author">
             </v-select>
           </div>
         </div>
@@ -90,21 +90,22 @@
 <script>
   import {mapState} from 'vuex'
   import vSelect from 'vue-select'
+
   export default {
     name: 'BookEdit',
     components: {
       vSelect
     },
-    data(){
+    data() {
       return {
         target: {name: '', description: '', price: '', inventory: '', image: ''},
-        genres:[],
+        genres: [],
         genre: null,
         author: null,
         authors: [],
       }
     },
-    created () {
+    created() {
       this.fetchData()
     },
     mounted() {
@@ -119,7 +120,7 @@
               $.ajax({
                 url: '/files',
                 data: form,
-                method:'POST',
+                method: 'POST',
                 success: response => {
                   console.log(response)
                   const node = document.createElement('img');
@@ -148,21 +149,33 @@
         if (id)
           this.$resource('/api/books{/id}').get({id: id}).then(response => {
             this.target = response.data
-            this.genre = response.data.content[1].value
-            this.author = response.data.content[0].value
+            //console.log('content')
+            //console.log(response.data.content)
+            const rels = {}
+
+            rels[this.target.content[0].rel] = this.target.content[0].value
+            rels[this.target.content[1].rel] = this.target.content[1].value
+           // const rels = response.data.content.reduce((obj, cur)=> obj[cur.rel] = cur.value, {})
+        console.log(rels)
+            this.genre = rels.genre
+            this.author = rels.authors
+            //console.log(this.genre)
+            //console.log(this.author)
             $('#summernote').summernote('code', this.target.description)
           })
       },
       submit() {
-        console.log(this.genre)
+
+        console.log(this.author.map(author => author.id))
         const id = this.itemId
         const markupStr = $('#summernote').summernote('code');
         this.target.description = markupStr
-        if (id) {
-          this.$resource('/api/books{/id}').update({id: id}, this.target).then(response => this.back())
-        } else {
-          this.$http.post('/api/books', this.target).then(response => this.back())
-        }
+        this.target.genre = this.genre.id
+        this.target.authors = this.author.map(author => author.id)
+
+        // this.$resource('/api/books{/id}').update({id: id}, this.target).then(response => this.back())
+        this.$http.post('/api/books/update', this.target).then(response => this.back())
+
       },
       uploadFile(event) {
         var form = new FormData()
@@ -171,7 +184,7 @@
         $.ajax({
           url: '/files',
           data: form,
-          method:'POST',
+          method: 'POST',
           success: response => {
             const node = document.createElement('img');
             const link = '/files/' + response.link
@@ -185,25 +198,25 @@
       },
       getGenres(search, loading) {
         loading(true)
-        this.$resource('/api/genres/search/findByNameStartsWith').get({'name':search}).then(
-          response=> {
-          loading(false)
-          this.genres = response.data.content
-          }
+        this.$resource('/api/genres/search/findByNameStartsWith').get({'name': search}).then(
+            response => {
+              loading(false)
+              this.genres = response.data.content
+            }
         )
       },
       getAuthors(search, loading) {
         loading(true)
-        this.$resource('/api/authors/search/findByNameStartsWith').get({'name':search}).then(
-          response=> {
-          loading(false)
-          this.authors = response.data.content
-        }
+        this.$resource('/api/authors/search/findByNameStartsWith').get({'name': search}).then(
+            response => {
+              loading(false)
+              this.authors = response.data.content
+            }
         )
       }
     },
     computed: {
-      itemId(){
+      itemId() {
         const params = this.$route.params
         return params ? params.id : null
       }

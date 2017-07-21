@@ -67,7 +67,7 @@
         if(this.genreSelected != -1)
           return '/api/genres/' + this.genreSelected + '/books'
         else if (bookName && bookName != '')
-          return '/api/books/search/findByNameStartsWith?name=' + bookName
+          return '/api/books/search/findByNameContaining?name=' + bookName
         return '/api/books'
       },
       ...mapState(['isLogin'])

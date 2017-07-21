@@ -1,53 +1,47 @@
 package me.vincentlin.bookstore.model;
 
-import com.fasterxml.jackson.annotation.*;
-import javax.validation.Valid;
-import org.hibernate.annotations.Formula;
-
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by Vincent on 2017/3/25.
  */
 
-@Entity
-public class Book {
+public class BookForm {
 
-    @Id
-    @JsonIdentityInfo(generator = ObjectIdGenerators.None.class)
-    @GeneratedValue
     private Long id;
     private String name;
     private String isbn;
-    @Column(columnDefinition = "TEXT")
     private String description;
     private String image;
     private Long inventory;
-    @Column(columnDefinition = "DECIMAL(6,2)")
     private BigDecimal price;
-    @ManyToMany
-    private List<Author> authors = new ArrayList<>();
+    private List<Long> authors = new ArrayList<>();
 
-    @ManyToOne
-    private Genre genre;
+    private Long genre;
 
-    public List<Author> getAuthors() {
+    public List<Long> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(List<Long> authors) {
         this.authors = authors;
     }
 
-    public Genre getGenre() {
+    public Long getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(Long genre) {
         this.genre = genre;
     }
 
@@ -106,4 +100,5 @@ public class Book {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

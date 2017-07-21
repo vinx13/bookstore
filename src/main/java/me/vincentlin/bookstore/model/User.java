@@ -105,7 +105,7 @@ public class User {
 
     public boolean isAdmin() {
         for(Role role: roles) {
-            if (role.getName().equals("ADMIN")) return true;
+            if (role.getName().equals("ROLE_ADMIN")) return true;
         }
         return false;
     }

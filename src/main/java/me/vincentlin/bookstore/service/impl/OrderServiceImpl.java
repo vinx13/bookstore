@@ -1,5 +1,6 @@
 package me.vincentlin.bookstore.service.impl;
 
+import me.vincentlin.bookstore.common.OrderException;
 import me.vincentlin.bookstore.common.OrderPermissionException;
 import me.vincentlin.bookstore.common.UnloginedException;
 import me.vincentlin.bookstore.common.Utils;
@@ -10,27 +11,20 @@ import me.vincentlin.bookstore.service.UserService;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.NoPermissionException;
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.security.Principal;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Vincent on 2017/4/12.
@@ -56,6 +50,7 @@ public class OrderServiceImpl implements OrderService {
     DataSource dataSource;
 
     @Override
+    @Transactional
     public Order checkout(User user, List<CartItem> items) {
         if (items == null || items.isEmpty())
             return null;
@@ -70,6 +65,9 @@ public class OrderServiceImpl implements OrderService {
             BigDecimal price = item.getBook().getPrice();
             entry.setUnitPrice(price);
             entry.setOrder(order);
+
+            if (!validateEntry(entry))
+                return null;
             entries.add(entry);
         }
         order.setStatus(Order.OrderStatus.UnPaid);
@@ -78,6 +76,12 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
 
         return order;
+    }
+
+    private boolean validateEntry(OrderEntry entry) {
+        if (entry.getQuantity() <= 0)
+            return false;
+        return true;
     }
 
     @Override
@@ -133,6 +137,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order pay(Principal principal, Long orderId) {
         User user = utils.getCurrentUser(principal);
         Order order = orderRepository.findOne(orderId);
@@ -142,6 +147,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order cancel(Principal principal, Long orderId) {
         User user = utils.getCurrentUser(principal);
         Order order = orderRepository.findOne(orderId);
@@ -151,14 +157,52 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order complete(Long orderId) {
+    @Transactional
+    public Order complete(Principal principal, Long orderId) {
+        User user = utils.getCurrentUser(principal);
+        Order order = getOr404(orderId);
+
+        if (!user.isAdmin())
+            throw new OrderPermissionException();
+
+        if (order.getStatus().equals(Order.OrderStatus.Completed))
+            throw new OrderException("Order is already completed");
+        if (order.getStatus().equals(Order.OrderStatus.UnPaid))
+            throw new OrderException("Order is not paid");
+        if (!checkInventory(order))
+            throw new OrderException("Inventory not available");
+
+        updateInventory(order);
+
         return updateOrder(orderId, Order.OrderStatus.Completed);
     }
 
+    private void updateInventory(Order order) {
+        for(OrderEntry entry: order.getEntries()) {
+            Book book = entry.getBook();
+            Long inventory = book.getInventory() - entry.getQuantity();
+            book.setInventory(inventory);
+            bookRepository.save(book);
+        }
+    }
+
+    private boolean checkInventory(Long orderId) {
+        Order order = getOr404(orderId);
+        return checkInventory(order);
+    }
+
+    private boolean checkInventory(Order order) {
+
+        for (OrderEntry entry : order.getEntries()) {
+            if (entry.getQuantity() > entry.getBook().getInventory()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private Order updateOrder(Long orderId, Order.OrderStatus status) {
-        Order order = orderRepository.findOne(orderId);
-        if (order == null)
-            throw new ResourceNotFoundException();
+        Order order = getOr404(orderId);
         order.setStatus(status);
         orderRepository.save(order);
         return order;
@@ -184,6 +228,12 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal amount = (BigDecimal)out.get("sale_amount");
         stat.setSaleAmount(amount != null ? amount : new BigDecimal(0));
         return stat;
+    }
 
+    private Order getOr404(Long orderId) {
+        Order order = orderRepository.getOne(orderId);
+        if (order != null)
+            return order;
+        throw new ResourceNotFoundException();
     }
 }

@@ -24,7 +24,7 @@ public interface OrderService {
 
     Order cancel(Principal principal, Long orderId);
 
-    Order complete(Long orderId);
+    Order complete(Principal principal, Long orderId);
 
     List<Order> findByUser(Principal principal);
 
@@ -42,8 +42,7 @@ public interface OrderService {
 
     List<Order> findBetweenDate(Date start, Date end);
 
-    Stat findStat(@Nullable Long userId, @Nullable Long bookId, @Nullable Long genreId, @Nullable Date start, @Nullable Date end);
-
-
+    Stat findStat(@Nullable Long userId, @Nullable Long bookId, @Nullable Long genreId, @Nullable Date start,
+        @Nullable Date end);
 
 }
